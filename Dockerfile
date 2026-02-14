@@ -36,7 +36,7 @@ RUN mkdir -p /app/config
 # Copy published files from build stage
 COPY --from=build /app/publish .
 
-# Expose HTTP port
+# Expose HTTP port (prod 8000; dev 8001 via appsettings.Development.json)
 EXPOSE 8000
 
 # Set environment variables

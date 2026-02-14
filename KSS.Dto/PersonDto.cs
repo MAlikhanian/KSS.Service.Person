@@ -14,6 +14,13 @@ namespace KSS.Dto
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        
+        // Related entities
+        public ICollection<PersonTranslationDto> Translations { get; set; } = new List<PersonTranslationDto>();
+        public ICollection<EmailDto> Emails { get; set; } = new List<EmailDto>();
+        public ICollection<PhoneDto> Phones { get; set; } = new List<PhoneDto>();
+        public ICollection<AddressDto> Addresses { get; set; } = new List<AddressDto>();
+        public ICollection<EmploymentDto> Employments { get; set; } = new List<EmploymentDto>();
     }
 }
 

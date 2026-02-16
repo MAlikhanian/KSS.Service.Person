@@ -7,7 +7,6 @@ namespace KSS.Entity
     public class Person
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public byte SexId { get; set; }
         public short PreferredLanguageId { get; set; }

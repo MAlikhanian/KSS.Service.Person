@@ -4,8 +4,6 @@ namespace KSS.Dto
 {
     public class CreatePersonWithTranslationDto
     {
-        public Guid? Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string FirstName { get; set; } = string.Empty;

@@ -21,7 +21,7 @@ namespace KSS.Service.Service
         {
             var person = new Person
             {
-                Id = request.Id ?? Guid.NewGuid(),
+                Id = Guid.CreateVersion7(),
                 SexId = request.SexId,
                 PreferredLanguageId = request.PreferredLanguageId,
                 NationalId = request.NationalId ?? Guid.NewGuid().ToString("N")[..20],

@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -117,6 +118,15 @@ namespace KSS.Api
                         Title = "KSS.Service.Person",
                         Version = "v1"
                     };
+
+                    var env = context.ApplicationServices.GetRequiredService<IWebHostEnvironment>();
+                    if (!env.IsDevelopment())
+                    {
+                        document.Servers =
+                        [
+                            new OpenApiServer { Url = "https://person.api.sebaoffice.ir", Description = "Production" }
+                        ];
+                    }
                     return Task.CompletedTask;
                 });
 

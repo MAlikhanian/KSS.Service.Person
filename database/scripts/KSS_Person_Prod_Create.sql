@@ -69,6 +69,9 @@ CREATE TABLE dbo.[PersonTranslation] (
 CREATE NONCLUSTERED INDEX IX_PersonTranslation_LanguageId ON dbo.[PersonTranslation] (LanguageId);
 GO
 
+SET QUOTED_IDENTIFIER ON;
+SET ANSI_NULLS ON;
+GO
 CREATE TRIGGER dbo.TR_PersonTranslation_DisplayName ON dbo.[PersonTranslation]
 AFTER INSERT, UPDATE
 AS

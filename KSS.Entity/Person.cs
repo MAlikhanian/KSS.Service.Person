@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace KSS.Entity
 {
@@ -12,6 +13,7 @@ namespace KSS.Entity
         public short PreferredLanguageId { get; set; }
         [Required]
         [MaxLength(20)]
+        [Unicode(false)]
         public string NationalId { get; set; } = string.Empty;
         [Column(TypeName = "date")]
         public DateTime DateOfBirth { get; set; }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace KSS.Entity
 {
@@ -16,6 +17,7 @@ namespace KSS.Entity
         public int CityId { get; set; }
         [Required]
         [MaxLength(10)]
+        [Unicode(false)]
         public string PostalCode { get; set; } = string.Empty;
         [Column(TypeName = "decimal(9, 6)")]
         public decimal? Latitude { get; set; }

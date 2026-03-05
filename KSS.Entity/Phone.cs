@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace KSS.Entity
 {
@@ -14,6 +15,7 @@ namespace KSS.Entity
         public short CountryId { get; set; }
         [Required]
         [MaxLength(15)]
+        [Unicode(false)]
         public string PhoneNumber { get; set; } = string.Empty;
         public bool IsPrimary { get; set; }
         public bool IsVerified { get; set; }

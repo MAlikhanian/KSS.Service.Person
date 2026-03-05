@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace KSS.Entity
 {
@@ -13,6 +14,7 @@ namespace KSS.Entity
         public byte LabelId { get; set; }
         [Required]
         [MaxLength(128)]
+        [Unicode(false)]
         [Column("Email")]
         public string EmailAddress { get; set; } = string.Empty;
         public bool IsPrimary { get; set; }

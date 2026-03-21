@@ -29,25 +29,98 @@ namespace KSS.Service.Service
                 BirthCountryId = request.BirthCountryId,
                 BirthRegionId = request.BirthRegionId,
                 BirthCityId = request.BirthCityId,
-                NationalityCountryId = request.NationalityCountryId,
-                IsActive = true,
+                BirthCertificateNumber = request.BirthCertificateNumber,
+                BirthCertificateSeriesNumber = request.BirthCertificateSeriesNumber,
+                BirthCertificateSeriesLetterId = request.BirthCertificateSeriesLetterId,
+                BirthCertificateSerial = request.BirthCertificateSerial,
+                BirthCertificateIssueCountryId = request.BirthCertificateIssueCountryId,
+                BirthCertificateIssueRegionId = request.BirthCertificateIssueRegionId,
+                BirthCertificateIssueCityId = request.BirthCertificateIssueCityId,
+                MaritalStatusId = request.MaritalStatusId,
+                ReligionId = request.ReligionId,
+                PassportNumber = request.PassportNumber,
+                MilitaryServiceStatusId = request.MilitaryServiceStatusId,
+                MilitaryServiceLocationId = request.MilitaryServiceLocationId,
+                InsuranceTypeId = request.InsuranceTypeId,
+                InsuranceNumber = request.InsuranceNumber,
+                IsActive = request.IsActive,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
 
+            // Save person without committing yet
             await _personRepository.AddAsync(person, false);
 
-            var personTranslation = new PersonTranslation
-            {
-                PersonId = person.Id,
-                LanguageId = request.PreferredLanguageId,
-                FirstName = request.FirstName,
-                LastName = request.LastName
-            };
+            // Create each translation (FA, EN) — save all without committing
+            var validTranslations = request.Translations
+                .Where(tr => !string.IsNullOrWhiteSpace(tr.FirstName) || !string.IsNullOrWhiteSpace(tr.LastName))
+                .ToList();
 
-            await _personTranslationRepository.AddAsync(personTranslation, true);
+            for (var i = 0; i < validTranslations.Count; i++)
+            {
+                var tr = validTranslations[i];
+                var translation = new PersonTranslation
+                {
+                    PersonId = person.Id,
+                    LanguageId = tr.LanguageId,
+                    FirstName = tr.FirstName,
+                    LastName = tr.LastName,
+                    FatherName = tr.FatherName
+                };
+
+                // Commit on the last translation
+                var isLast = i == validTranslations.Count - 1;
+                await _personTranslationRepository.AddAsync(translation, isLast);
+            }
+
+            // If no translations were provided, still commit the person
+            if (validTranslations.Count == 0)
+            {
+                await _personRepository.SaveChangesAsync();
+            }
 
             return _mapper.Map<PersonDto>(person);
+        }
+
+        /// <summary>
+        /// Upsert translations for an existing person.
+        /// Determines add vs update per language (like company pattern).
+        /// </summary>
+        public async Task UpsertTranslationsAsync(UpsertPersonTranslationsDto dto)
+        {
+            var existing = _personTranslationRepository.ToList(
+                t => t.PersonId == dto.PersonId);
+            var existingByLang = existing.ToDictionary(t => t.LanguageId);
+
+            foreach (var tr in dto.Translations)
+            {
+                if (string.IsNullOrWhiteSpace(tr.FirstName) && string.IsNullOrWhiteSpace(tr.LastName))
+                    continue;
+
+                if (existingByLang.TryGetValue(tr.LanguageId, out var existingTranslation))
+                {
+                    // Update tracked entity properties — no need to call Update(),
+                    // EF change tracker already detects the modifications
+                    existingTranslation.FirstName = tr.FirstName;
+                    existingTranslation.LastName = tr.LastName;
+                    existingTranslation.FatherName = tr.FatherName;
+                }
+                else
+                {
+                    var entity = new PersonTranslation
+                    {
+                        PersonId = dto.PersonId,
+                        LanguageId = tr.LanguageId,
+                        FirstName = tr.FirstName,
+                        LastName = tr.LastName,
+                        FatherName = tr.FatherName
+                    };
+                    await _personTranslationRepository.AddAsync(entity, false);
+                }
+            }
+
+            // Save all changes in one batch
+            await _personTranslationRepository.SaveChangesAsync();
         }
     }
 }

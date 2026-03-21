@@ -4,17 +4,9 @@ namespace KSS.Dto
 {
     public class CreatePersonWithTranslationDto
     {
-        [Required]
-        [MaxLength(50)]
-        public string FirstName { get; set; } = string.Empty;
-
-        [Required]
-        [MaxLength(50)]
-        public string LastName { get; set; } = string.Empty;
-
         public byte SexId { get; set; } = 1;
 
-        public short PreferredLanguageId { get; set; } = 1;
+        public short PreferredLanguageId { get; set; } = 12;
 
         [MaxLength(20)]
         public string? NationalId { get; set; }
@@ -27,6 +19,45 @@ namespace KSS.Dto
 
         public int BirthCityId { get; set; } = 1;
 
-        public short NationalityCountryId { get; set; } = 1;
+        [MaxLength(20)]
+        public string? BirthCertificateNumber { get; set; }
+
+        [MaxLength(2)]
+        public string? BirthCertificateSeriesNumber { get; set; }
+
+        public byte? BirthCertificateSeriesLetterId { get; set; }
+
+        [MaxLength(6)]
+        public string? BirthCertificateSerial { get; set; }
+
+        public short BirthCertificateIssueCountryId { get; set; } = 1;
+
+        public short BirthCertificateIssueRegionId { get; set; } = 1;
+
+        public int BirthCertificateIssueCityId { get; set; } = 1;
+
+        public byte MaritalStatusId { get; set; } = 1;
+
+        public short ReligionId { get; set; } = 1;
+
+        [MaxLength(20)]
+        public string? PassportNumber { get; set; }
+
+        public byte MilitaryServiceStatusId { get; set; } = 1;
+
+        public short? MilitaryServiceLocationId { get; set; }
+
+        public byte InsuranceTypeId { get; set; } = 1;
+
+        [MaxLength(30)]
+        public string? InsuranceNumber { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+        /// <summary>
+        /// Translations for FA and EN (like company pattern).
+        /// Each entry must have LanguageId, FirstName, LastName. FatherName is optional.
+        /// </summary>
+        public List<PersonTranslationDto> Translations { get; set; } = new();
     }
 }

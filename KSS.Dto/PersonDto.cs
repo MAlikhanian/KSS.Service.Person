@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace KSS.Dto
 {
     public class PersonDto
@@ -10,7 +12,22 @@ namespace KSS.Dto
         public short BirthCountryId { get; set; }
         public short BirthRegionId { get; set; }
         public int BirthCityId { get; set; }
-        public short NationalityCountryId { get; set; }
+        public string? BirthCertificateNumber { get; set; }
+        [MaxLength(2)]
+        public string? BirthCertificateSeriesNumber { get; set; }
+        public byte? BirthCertificateSeriesLetterId { get; set; }
+        [MaxLength(6)]
+        public string? BirthCertificateSerial { get; set; }
+        public short BirthCertificateIssueCountryId { get; set; }
+        public short BirthCertificateIssueRegionId { get; set; }
+        public int BirthCertificateIssueCityId { get; set; }
+        public byte MaritalStatusId { get; set; }
+        public short ReligionId { get; set; }
+        public string? PassportNumber { get; set; }
+        public byte MilitaryServiceStatusId { get; set; }
+        public short? MilitaryServiceLocationId { get; set; }
+        public byte InsuranceTypeId { get; set; }
+        public string? InsuranceNumber { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
@@ -21,6 +38,8 @@ namespace KSS.Dto
         public ICollection<PhoneDto> Phones { get; set; } = new List<PhoneDto>();
         public ICollection<AddressDto> Addresses { get; set; } = new List<AddressDto>();
         public ICollection<EmploymentDto> Employments { get; set; } = new List<EmploymentDto>();
+        public ICollection<PersonNationalityDto> Nationalities { get; set; } = new List<PersonNationalityDto>();
+        public ICollection<RelationshipDto> RelationshipsAsPerson { get; set; } = new List<RelationshipDto>();
     }
 }
 

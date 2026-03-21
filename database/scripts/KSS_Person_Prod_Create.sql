@@ -29,21 +29,74 @@ GO
 
 -- Person (GUID key; PreferredLanguageId = reference to KSS_Common_Prod.dbo.[Language].Id)
 -- NationalId, DateOfBirth: no translation. Translated fields in PersonTranslation.
+-- MilitaryServiceStatus lookup table
+CREATE TABLE dbo.[MilitaryServiceStatus] (
+    Id     TINYINT      IDENTITY(1, 1) NOT NULL,
+    Code   VARCHAR(20)  NOT NULL,
+    CONSTRAINT PK_MilitaryServiceStatus PRIMARY KEY CLUSTERED (Id),
+    CONSTRAINT UQ_MilitaryServiceStatus_Code UNIQUE (Code)
+);
+CREATE TABLE dbo.[MilitaryServiceStatusTranslation] (
+    MilitaryServiceStatusId TINYINT      NOT NULL,
+    LanguageId              SMALLINT     NOT NULL,
+    Name                    NVARCHAR(50) NOT NULL,
+    CONSTRAINT PK_MilitaryServiceStatusTranslation PRIMARY KEY CLUSTERED (MilitaryServiceStatusId, LanguageId),
+    CONSTRAINT FK_MilitaryServiceStatusTranslation_MilitaryServiceStatus
+        FOREIGN KEY (MilitaryServiceStatusId) REFERENCES dbo.[MilitaryServiceStatus] (Id) ON DELETE CASCADE
+);
+CREATE NONCLUSTERED INDEX IX_MilitaryServiceStatusTranslation_LanguageId
+    ON dbo.[MilitaryServiceStatusTranslation] (LanguageId);
+GO
+
+-- InsuranceType lookup table
+CREATE TABLE dbo.[InsuranceType] (
+    Id     TINYINT      IDENTITY(1, 1) NOT NULL,
+    Code   VARCHAR(20)  NOT NULL,
+    CONSTRAINT PK_InsuranceType PRIMARY KEY CLUSTERED (Id),
+    CONSTRAINT UQ_InsuranceType_Code UNIQUE (Code)
+);
+CREATE TABLE dbo.[InsuranceTypeTranslation] (
+    InsuranceTypeId TINYINT      NOT NULL,
+    LanguageId      SMALLINT     NOT NULL,
+    Name            NVARCHAR(50) NOT NULL,
+    CONSTRAINT PK_InsuranceTypeTranslation PRIMARY KEY CLUSTERED (InsuranceTypeId, LanguageId),
+    CONSTRAINT FK_InsuranceTypeTranslation_InsuranceType
+        FOREIGN KEY (InsuranceTypeId) REFERENCES dbo.[InsuranceType] (Id) ON DELETE CASCADE
+);
+CREATE NONCLUSTERED INDEX IX_InsuranceTypeTranslation_LanguageId
+    ON dbo.[InsuranceTypeTranslation] (LanguageId);
+GO
+
 CREATE TABLE dbo.[Person] (
-    Id                   UNIQUEIDENTIFIER NOT NULL CONSTRAINT DF_Person_Id DEFAULT NEWSEQUENTIALID(),
-    SexId                TINYINT          NOT NULL,
-    PreferredLanguageId  SMALLINT         NOT NULL,
-    NationalId           VARCHAR(20)      NOT NULL,
-    DateOfBirth          DATE             NOT NULL,
-    BirthCountryId       SMALLINT         NOT NULL,
-    BirthRegionId        SMALLINT         NOT NULL,
-    BirthCityId          INT              NOT NULL,
-    NationalityCountryId SMALLINT         NOT NULL,
-    IsActive             BIT              NOT NULL CONSTRAINT DF_Person_IsActive DEFAULT 1,
-    CreatedAt            DATETIME2(7)     NOT NULL CONSTRAINT DF_Person_CreatedAt DEFAULT SYSUTCDATETIME(),
-    UpdatedAt            DATETIME2(7)     NOT NULL CONSTRAINT DF_Person_UpdatedAt DEFAULT SYSUTCDATETIME(),
+    Id                              UNIQUEIDENTIFIER NOT NULL CONSTRAINT DF_Person_Id DEFAULT NEWSEQUENTIALID(),
+    SexId                           TINYINT          NOT NULL,
+    PreferredLanguageId             SMALLINT         NOT NULL,
+    NationalId                      VARCHAR(20)      NOT NULL,
+    DateOfBirth                     DATE             NOT NULL,
+    BirthCountryId                  SMALLINT         NOT NULL,
+    BirthRegionId                   SMALLINT         NOT NULL,
+    BirthCityId                     INT              NOT NULL,
+    NationalityCountryId            SMALLINT         NOT NULL,
+    BirthCertificateNumber          VARCHAR(20)      NULL,
+    BirthCertificateSerialPartA     VARCHAR(10)      NULL,
+    BirthCertificateSerialPartB     VARCHAR(10)      NULL,
+    BirthCertificateSerialPartC     VARCHAR(10)      NULL,
+    BirthCertificateIssueCountryId  SMALLINT         NOT NULL CONSTRAINT DF_Person_BCIssueCountryId DEFAULT 1,
+    BirthCertificateIssueRegionId   SMALLINT         NOT NULL CONSTRAINT DF_Person_BCIssueRegionId DEFAULT 1,
+    BirthCertificateIssueCityId     INT              NOT NULL CONSTRAINT DF_Person_BCIssueCityId DEFAULT 1,
+    IsMarried                       BIT              NOT NULL CONSTRAINT DF_Person_IsMarried DEFAULT 0,
+    ReligionId                      SMALLINT         NOT NULL CONSTRAINT DF_Person_ReligionId DEFAULT 1,
+    PassportNumber                  VARCHAR(20)      NULL,
+    MilitaryServiceStatusId         TINYINT          NOT NULL CONSTRAINT DF_Person_MilitaryServiceStatusId DEFAULT 1,
+    InsuranceTypeId                 TINYINT          NOT NULL CONSTRAINT DF_Person_InsuranceTypeId DEFAULT 1,
+    InsuranceNumber                 VARCHAR(30)      NULL,
+    IsActive                        BIT              NOT NULL CONSTRAINT DF_Person_IsActive DEFAULT 1,
+    CreatedAt                       DATETIME2(7)     NOT NULL CONSTRAINT DF_Person_CreatedAt DEFAULT SYSUTCDATETIME(),
+    UpdatedAt                       DATETIME2(7)     NOT NULL CONSTRAINT DF_Person_UpdatedAt DEFAULT SYSUTCDATETIME(),
     CONSTRAINT PK_Person PRIMARY KEY CLUSTERED (Id),
-    CONSTRAINT FK_Person_Sex FOREIGN KEY (SexId) REFERENCES dbo.[Sex] (Id)
+    CONSTRAINT FK_Person_Sex FOREIGN KEY (SexId) REFERENCES dbo.[Sex] (Id),
+    CONSTRAINT FK_Person_MilitaryServiceStatus FOREIGN KEY (MilitaryServiceStatusId) REFERENCES dbo.[MilitaryServiceStatus] (Id),
+    CONSTRAINT FK_Person_InsuranceType FOREIGN KEY (InsuranceTypeId) REFERENCES dbo.[InsuranceType] (Id)
 );
 CREATE NONCLUSTERED INDEX IX_Person_SexId ON dbo.[Person] (SexId);
 CREATE NONCLUSTERED INDEX IX_Person_PreferredLanguageId ON dbo.[Person] (PreferredLanguageId);
@@ -52,6 +105,9 @@ CREATE NONCLUSTERED INDEX IX_Person_BirthCountryId ON dbo.[Person] (BirthCountry
 CREATE NONCLUSTERED INDEX IX_Person_BirthRegionId ON dbo.[Person] (BirthRegionId);
 CREATE NONCLUSTERED INDEX IX_Person_BirthCityId ON dbo.[Person] (BirthCityId);
 CREATE NONCLUSTERED INDEX IX_Person_NationalityCountryId ON dbo.[Person] (NationalityCountryId);
+CREATE NONCLUSTERED INDEX IX_Person_MilitaryServiceStatusId ON dbo.[Person] (MilitaryServiceStatusId);
+CREATE NONCLUSTERED INDEX IX_Person_InsuranceTypeId ON dbo.[Person] (InsuranceTypeId);
+CREATE NONCLUSTERED INDEX IX_Person_ReligionId ON dbo.[Person] (ReligionId);
 CREATE NONCLUSTERED INDEX IX_Person_IsActive ON dbo.[Person] (IsActive) WHERE IsActive = 1;
 GO
 
@@ -497,4 +553,74 @@ USING (
 ) AS s ON t.AddressLabelId = s.AddressLabelId AND t.LanguageId = s.LanguageId
 WHEN MATCHED THEN UPDATE SET Name = s.Name
 WHEN NOT MATCHED BY TARGET THEN INSERT (AddressLabelId, LanguageId, Name) VALUES (s.AddressLabelId, s.LanguageId, s.Name);
+GO
+
+-- ============================================================
+-- Seed: MilitaryServiceStatus + Translations
+-- ============================================================
+;WITH v AS (
+    SELECT * FROM (VALUES
+        ('Exempt',                'en', N'Exempt'),                ('Exempt',                'fa', N'معاف'),
+        ('Completed',             'en', N'Completed'),             ('Completed',             'fa', N'پایان خدمت'),
+        ('InService',             'en', N'In Service'),            ('InService',             'fa', N'در حال خدمت'),
+        ('EducationalExemption',  'en', N'Educational Exemption'), ('EducationalExemption',  'fa', N'معافیت تحصیلی'),
+        ('NotApplicable',         'en', N'Not Applicable'),        ('NotApplicable',         'fa', N'مشمول نمی‌شود')
+    ) AS x(Code, LangCode, Name)
+)
+MERGE dbo.[MilitaryServiceStatus] AS t
+USING (SELECT DISTINCT Code FROM v) AS s ON t.Code = s.Code
+WHEN NOT MATCHED BY TARGET THEN INSERT (Code) VALUES (s.Code);
+
+;WITH v AS (
+    SELECT * FROM (VALUES
+        ('Exempt',                'en', N'Exempt'),                ('Exempt',                'fa', N'معاف'),
+        ('Completed',             'en', N'Completed'),             ('Completed',             'fa', N'پایان خدمت'),
+        ('InService',             'en', N'In Service'),            ('InService',             'fa', N'در حال خدمت'),
+        ('EducationalExemption',  'en', N'Educational Exemption'), ('EducationalExemption',  'fa', N'معافیت تحصیلی'),
+        ('NotApplicable',         'en', N'Not Applicable'),        ('NotApplicable',         'fa', N'مشمول نمی‌شود')
+    ) AS x(Code, LangCode, Name)
+)
+MERGE dbo.[MilitaryServiceStatusTranslation] AS t
+USING (
+    SELECT ms.Id AS MilitaryServiceStatusId, l.Id AS LanguageId, v.Name
+    FROM v
+    JOIN dbo.[MilitaryServiceStatus] ms ON ms.Code = v.Code
+    JOIN KSS_Common_Prod.dbo.[Language] l ON l.Code = v.LangCode
+) AS s ON t.MilitaryServiceStatusId = s.MilitaryServiceStatusId AND t.LanguageId = s.LanguageId
+WHEN MATCHED THEN UPDATE SET Name = s.Name
+WHEN NOT MATCHED BY TARGET THEN INSERT (MilitaryServiceStatusId, LanguageId, Name) VALUES (s.MilitaryServiceStatusId, s.LanguageId, s.Name);
+GO
+
+-- ============================================================
+-- Seed: InsuranceType + Translations
+-- ============================================================
+;WITH v AS (
+    SELECT * FROM (VALUES
+        ('SocialSecurity',          'en', N'Social Security'),          ('SocialSecurity',          'fa', N'تأمین اجتماعی'),
+        ('HealthInsurance',         'en', N'Health Insurance'),         ('HealthInsurance',         'fa', N'بیمه درمان'),
+        ('SupplementaryInsurance',  'en', N'Supplementary Insurance'),  ('SupplementaryInsurance',  'fa', N'بیمه تکمیلی'),
+        ('None',                    'en', N'None'),                     ('None',                    'fa', N'ندارد')
+    ) AS x(Code, LangCode, Name)
+)
+MERGE dbo.[InsuranceType] AS t
+USING (SELECT DISTINCT Code FROM v) AS s ON t.Code = s.Code
+WHEN NOT MATCHED BY TARGET THEN INSERT (Code) VALUES (s.Code);
+
+;WITH v AS (
+    SELECT * FROM (VALUES
+        ('SocialSecurity',          'en', N'Social Security'),          ('SocialSecurity',          'fa', N'تأمین اجتماعی'),
+        ('HealthInsurance',         'en', N'Health Insurance'),         ('HealthInsurance',         'fa', N'بیمه درمان'),
+        ('SupplementaryInsurance',  'en', N'Supplementary Insurance'),  ('SupplementaryInsurance',  'fa', N'بیمه تکمیلی'),
+        ('None',                    'en', N'None'),                     ('None',                    'fa', N'ندارد')
+    ) AS x(Code, LangCode, Name)
+)
+MERGE dbo.[InsuranceTypeTranslation] AS t
+USING (
+    SELECT it.Id AS InsuranceTypeId, l.Id AS LanguageId, v.Name
+    FROM v
+    JOIN dbo.[InsuranceType] it ON it.Code = v.Code
+    JOIN KSS_Common_Prod.dbo.[Language] l ON l.Code = v.LangCode
+) AS s ON t.InsuranceTypeId = s.InsuranceTypeId AND t.LanguageId = s.LanguageId
+WHEN MATCHED THEN UPDATE SET Name = s.Name
+WHEN NOT MATCHED BY TARGET THEN INSERT (InsuranceTypeId, LanguageId, Name) VALUES (s.InsuranceTypeId, s.LanguageId, s.Name);
 GO

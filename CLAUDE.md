@@ -41,3 +41,15 @@
 - Entity Framework Core with code-first approach
 - `varchar` columns require `[Unicode(false)]` attribute on entity properties
 - Always keep entities in sync with database schema
+
+### Database Access via sqlcmd
+Connection details (server, user, password) are in `appsettings.json` under `ConnectionStrings.KSSMain`. Read the password from there.
+
+**IMPORTANT — password escaping**: The DB password contains special characters (`!`, `@`, `%`). Use **double quotes** around the `-P` value. Some queries intermittently fail with "Login failed" due to shell escaping — retry the same command.
+
+```bash
+# Read credentials from appsettings.json, then run:
+"/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/sqlcmd" -S <server> -U <user> -P "<password>" -d <database> -I -Q "YOUR QUERY"
+```
+
+Always use `-I` flag (QUOTED_IDENTIFIER on) — required for tables with indexed views or computed columns.

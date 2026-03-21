@@ -29,5 +29,14 @@ namespace KSS.Data.DbContexts
         public DbSet<RelationshipType> RelationshipTypes { get; set; }
         public DbSet<RelationshipTypeTranslation> RelationshipTypeTranslations { get; set; }
         public DbSet<Relationship> Relationships { get; set; }
+        public DbSet<MaritalStatus> MaritalStatuses { get; set; }
+        public DbSet<MaritalStatusTranslation> MaritalStatusTranslations { get; set; }
+        public DbSet<PersonNationality> PersonNationalities { get; set; }
+        public DbSet<Religion> Religions { get; set; }
+        public DbSet<ReligionTranslation> ReligionTranslations { get; set; }
+        public DbSet<BirthCertificateSeriesLetter> BirthCertificateSeriesLetters { get; set; }
+        public DbSet<BirthCertificateSeriesLetterTranslation> BirthCertificateSeriesLetterTranslations { get; set; }
+        public DbSet<MilitaryServiceLocation> MilitaryServiceLocations { get; set; }
+        public DbSet<MilitaryServiceLocationTranslation> MilitaryServiceLocationTranslations { get; set; }
     }
 }

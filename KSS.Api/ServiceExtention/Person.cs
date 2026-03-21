@@ -64,6 +64,32 @@ namespace KSS.Api.ServiceExtention
             services.AddScoped<IRelationshipTypeTranslationService, RelationshipTypeTranslationService>();
             services.AddScoped<IRelationshipRepository, RelationshipRepository>();
             services.AddScoped<IRelationshipService, RelationshipService>();
+            services.AddScoped<IMilitaryServiceStatusRepository, MilitaryServiceStatusRepository>();
+            services.AddScoped<IMilitaryServiceStatusService, MilitaryServiceStatusService>();
+            services.AddScoped<IMilitaryServiceStatusTranslationRepository, MilitaryServiceStatusTranslationRepository>();
+            services.AddScoped<IMilitaryServiceStatusTranslationService, MilitaryServiceStatusTranslationService>();
+            services.AddScoped<IInsuranceTypeRepository, InsuranceTypeRepository>();
+            services.AddScoped<IInsuranceTypeService, InsuranceTypeService>();
+            services.AddScoped<IInsuranceTypeTranslationRepository, InsuranceTypeTranslationRepository>();
+            services.AddScoped<IInsuranceTypeTranslationService, InsuranceTypeTranslationService>();
+            services.AddScoped<IMaritalStatusRepository, MaritalStatusRepository>();
+            services.AddScoped<IMaritalStatusService, MaritalStatusService>();
+            services.AddScoped<IMaritalStatusTranslationRepository, MaritalStatusTranslationRepository>();
+            services.AddScoped<IMaritalStatusTranslationService, MaritalStatusTranslationService>();
+            services.AddScoped<IPersonNationalityRepository, PersonNationalityRepository>();
+            services.AddScoped<IPersonNationalityService, PersonNationalityService>();
+            services.AddScoped<IReligionRepository, ReligionRepository>();
+            services.AddScoped<IReligionService, ReligionService>();
+            services.AddScoped<IReligionTranslationRepository, ReligionTranslationRepository>();
+            services.AddScoped<IReligionTranslationService, ReligionTranslationService>();
+            services.AddScoped<IBirthCertificateSeriesLetterRepository, BirthCertificateSeriesLetterRepository>();
+            services.AddScoped<IBirthCertificateSeriesLetterService, BirthCertificateSeriesLetterService>();
+            services.AddScoped<IBirthCertificateSeriesLetterTranslationRepository, BirthCertificateSeriesLetterTranslationRepository>();
+            services.AddScoped<IBirthCertificateSeriesLetterTranslationService, BirthCertificateSeriesLetterTranslationService>();
+            services.AddScoped<IMilitaryServiceLocationRepository, MilitaryServiceLocationRepository>();
+            services.AddScoped<IMilitaryServiceLocationService, MilitaryServiceLocationService>();
+            services.AddScoped<IMilitaryServiceLocationTranslationRepository, MilitaryServiceLocationTranslationRepository>();
+            services.AddScoped<IMilitaryServiceLocationTranslationService, MilitaryServiceLocationTranslationService>();
 
             return services;
         }

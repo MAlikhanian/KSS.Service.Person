@@ -32,6 +32,19 @@ namespace KSS.Api.MappingProfile
             CreateMap<RelationshipType, RelationshipTypeDto>().ReverseMap();
             CreateMap<RelationshipTypeTranslation, RelationshipTypeTranslationDto>().ReverseMap();
             CreateMap<Relationship, RelationshipDto>().ReverseMap();
+            CreateMap<MilitaryServiceStatus, MilitaryServiceStatusDto>().ReverseMap();
+            CreateMap<MilitaryServiceStatusTranslation, MilitaryServiceStatusTranslationDto>().ReverseMap();
+            CreateMap<InsuranceType, InsuranceTypeDto>().ReverseMap();
+            CreateMap<InsuranceTypeTranslation, InsuranceTypeTranslationDto>().ReverseMap();
+            CreateMap<MaritalStatus, MaritalStatusDto>().ReverseMap();
+            CreateMap<MaritalStatusTranslation, MaritalStatusTranslationDto>().ReverseMap();
+            CreateMap<PersonNationality, PersonNationalityDto>().ReverseMap();
+            CreateMap<Religion, ReligionDto>().ReverseMap();
+            CreateMap<ReligionTranslation, ReligionTranslationDto>().ReverseMap();
+            CreateMap<BirthCertificateSeriesLetter, BirthCertificateSeriesLetterDto>().ReverseMap();
+            CreateMap<BirthCertificateSeriesLetterTranslation, BirthCertificateSeriesLetterTranslationDto>().ReverseMap();
+            CreateMap<MilitaryServiceLocation, MilitaryServiceLocationDto>().ReverseMap();
+            CreateMap<MilitaryServiceLocationTranslation, MilitaryServiceLocationTranslationDto>().ReverseMap();
         }
     }
 }

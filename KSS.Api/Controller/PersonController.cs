@@ -26,5 +26,15 @@ namespace KSS.Api.Controller
             var result = await _personService.CreatePersonWithTranslationAsync(request);
             return Ok(result);
         }
+
+        [HttpPut]
+        public async Task<ActionResult> UpsertTranslations([FromBody] UpsertPersonTranslationsDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _personService.UpsertTranslationsAsync(dto);
+            return NoContent();
+        }
     }
 }

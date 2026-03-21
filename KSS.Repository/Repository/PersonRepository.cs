@@ -19,6 +19,8 @@ namespace KSS.Repository.Repository
                 .Include(p => p.Phones)
                 .Include(p => p.Addresses)
                 .Include(p => p.Employments)
+                .Include(p => p.Nationalities)
+                .Include(p => p.RelationshipsAsPerson)
                 .ToListAsync();
         }
     }

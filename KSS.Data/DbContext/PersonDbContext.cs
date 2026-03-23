@@ -38,5 +38,8 @@ namespace KSS.Data.DbContexts
         public DbSet<BirthCertificateSeriesLetterTranslation> BirthCertificateSeriesLetterTranslations { get; set; }
         public DbSet<MilitaryServiceLocation> MilitaryServiceLocations { get; set; }
         public DbSet<MilitaryServiceLocationTranslation> MilitaryServiceLocationTranslations { get; set; }
+        public DbSet<PersonStatus> PersonStatuses { get; set; }
+        public DbSet<ContractType> ContractTypes { get; set; }
+        public DbSet<ContractTypeTranslation> ContractTypeTranslations { get; set; }
     }
 }

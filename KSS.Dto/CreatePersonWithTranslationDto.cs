@@ -52,8 +52,6 @@ namespace KSS.Dto
         [MaxLength(30)]
         public string? InsuranceNumber { get; set; }
 
-        public bool IsActive { get; set; } = true;
-
         /// <summary>
         /// Translations for FA and EN (like company pattern).
         /// Each entry must have LanguageId, FirstName, LastName. FatherName is optional.

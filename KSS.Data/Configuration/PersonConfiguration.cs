@@ -310,4 +310,20 @@ namespace KSS.Data.Configuration
             b.HasKey(x => new { x.InsuranceTypeId, x.LanguageId });
         }
     }
+
+    public class ContractTypeConfiguration : IEntityTypeConfiguration<ContractType>
+    {
+        public void Configure(EntityTypeBuilder<ContractType> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.ContractType).HasForeignKey(x => x.ContractTypeId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class ContractTypeTranslationConfiguration : IEntityTypeConfiguration<ContractTypeTranslation>
+    {
+        public void Configure(EntityTypeBuilder<ContractTypeTranslation> b)
+        {
+            b.HasKey(x => new { x.ContractTypeId, x.LanguageId });
+        }
+    }
 }

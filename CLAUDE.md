@@ -2,6 +2,19 @@
 
 ## Architecture Rules
 
+### No Unauthorized Installations (CRITICAL)
+- **NEVER install any application, package, or tool without explicit user confirmation first**
+- Always ask before running `npm install`, `dotnet add`, `pip install`, or any package manager command
+- Always ask before downloading binaries, browser engines, or system tools
+
+### Database Connection String Convention (CRITICAL)
+- **ALL services MUST use `ConnectionStrings["DefaultConnection"]`** to read the database connection string
+- Code: `configuration.GetSection("ConnectionStrings")["DefaultConnection"]`
+- Do NOT use service-specific keys like `KSSPerson`, `KSSAuth`, `KSSCompany` — each service should be a reusable template
+- `appsettings.json` (prod) → `DefaultConnection` points to `*_Prod` database
+- `appsettings.Development.json` (dev) → `DefaultConnection` points to `*_Dev` database
+- This ensures dev mode always uses dev DB and prod mode always uses prod DB
+
 ### Backend-First Business Logic (CRITICAL)
 - **ALL business logic MUST be implemented in the C# Service layer**
 - The Next.js frontend (`KSS.Client.Web`) is a thin API caller only — it must NOT contain business logic
@@ -43,7 +56,7 @@
 - Always keep entities in sync with database schema
 
 ### Database Access via sqlcmd
-Connection details (server, user, password) are in `appsettings.json` under `ConnectionStrings.KSSMain`. Read the password from there.
+Connection details (server, user, password) are in `appsettings.json` under `ConnectionStrings.DefaultConnection`. Read the password from there.
 
 **IMPORTANT — password escaping**: The DB password contains special characters (`!`, `@`, `%`). Use **double quotes** around the `-P` value. Some queries intermittently fail with "Login failed" due to shell escaping — retry the same command.
 

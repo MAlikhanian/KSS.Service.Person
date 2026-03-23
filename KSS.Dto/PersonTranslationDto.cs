@@ -8,5 +8,7 @@ namespace KSS.Dto
         public string LastName { get; set; } = string.Empty;
         public string? FatherName { get; set; }
         public string? DisplayName { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

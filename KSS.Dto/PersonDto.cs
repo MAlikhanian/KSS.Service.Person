@@ -28,7 +28,6 @@ namespace KSS.Dto
         public short? MilitaryServiceLocationId { get; set; }
         public byte InsuranceTypeId { get; set; }
         public string? InsuranceNumber { get; set; }
-        public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         
@@ -40,6 +39,7 @@ namespace KSS.Dto
         public ICollection<EmploymentDto> Employments { get; set; } = new List<EmploymentDto>();
         public ICollection<PersonNationalityDto> Nationalities { get; set; } = new List<PersonNationalityDto>();
         public ICollection<RelationshipDto> RelationshipsAsPerson { get; set; } = new List<RelationshipDto>();
+        public ICollection<PersonStatusDto> Statuses { get; set; } = new List<PersonStatusDto>();
     }
 }
 

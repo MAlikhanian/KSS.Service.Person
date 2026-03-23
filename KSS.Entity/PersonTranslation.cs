@@ -18,6 +18,8 @@ namespace KSS.Entity
         public string? FatherName { get; set; }
         [MaxLength(100)]
         public string? DisplayName { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         [ForeignKey(nameof(PersonId))]
         public Person Person { get; set; } = null!;

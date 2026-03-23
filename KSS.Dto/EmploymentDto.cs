@@ -8,6 +8,7 @@ namespace KSS.Dto
         public short JobTitleId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime? ToDate { get; set; }
+        public byte ContractTypeId { get; set; }
         public bool IsPrimary { get; set; }
         public byte SortOrder { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -44,7 +44,6 @@ namespace KSS.Entity
         [MaxLength(30)]
         [Unicode(false)]
         public string? InsuranceNumber { get; set; }
-        public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
@@ -70,6 +69,7 @@ namespace KSS.Entity
         public ICollection<Relationship> RelationshipsAsPerson { get; set; } = new List<Relationship>();
         public ICollection<Relationship> RelationshipsAsRelatedPerson { get; set; } = new List<Relationship>();
         public ICollection<PersonNationality> Nationalities { get; set; } = new List<PersonNationality>();
+        public ICollection<PersonStatus> Statuses { get; set; } = new List<PersonStatus>();
     }
 }
 

@@ -45,6 +45,9 @@ namespace KSS.Api.MappingProfile
             CreateMap<BirthCertificateSeriesLetterTranslation, BirthCertificateSeriesLetterTranslationDto>().ReverseMap();
             CreateMap<MilitaryServiceLocation, MilitaryServiceLocationDto>().ReverseMap();
             CreateMap<MilitaryServiceLocationTranslation, MilitaryServiceLocationTranslationDto>().ReverseMap();
+            CreateMap<PersonStatus, PersonStatusDto>().ReverseMap();
+            CreateMap<ContractType, ContractTypeDto>().ReverseMap();
+            CreateMap<ContractTypeTranslation, ContractTypeTranslationDto>().ReverseMap();
         }
     }
 }

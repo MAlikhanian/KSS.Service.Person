@@ -16,6 +16,7 @@ namespace KSS.Entity
         public DateTime FromDate { get; set; }
         [Column(TypeName = "date")]
         public DateTime? ToDate { get; set; }
+        public byte ContractTypeId { get; set; }
         public bool IsPrimary { get; set; }
         public byte SortOrder { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -25,6 +26,8 @@ namespace KSS.Entity
         public Person Person { get; set; } = null!;
         [ForeignKey(nameof(JobTitleId))]
         public JobTitle JobTitle { get; set; } = null!;
+        [ForeignKey(nameof(ContractTypeId))]
+        public ContractType ContractType { get; set; } = null!;
     }
 }
 

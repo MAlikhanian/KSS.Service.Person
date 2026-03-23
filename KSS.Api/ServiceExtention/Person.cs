@@ -11,8 +11,7 @@ namespace KSS.Api.ServiceExtention
     {
         public static IServiceCollection AddPersonServiceExtention(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetSection("ConnectionStrings")["KSSPerson"]
-                ?? configuration.GetSection("ConnectionStrings")["KSSMain"];
+            var connectionString = configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 
             services.AddDbContext<MainDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -90,6 +89,12 @@ namespace KSS.Api.ServiceExtention
             services.AddScoped<IMilitaryServiceLocationService, MilitaryServiceLocationService>();
             services.AddScoped<IMilitaryServiceLocationTranslationRepository, MilitaryServiceLocationTranslationRepository>();
             services.AddScoped<IMilitaryServiceLocationTranslationService, MilitaryServiceLocationTranslationService>();
+            services.AddScoped<IPersonStatusRepository, PersonStatusRepository>();
+            services.AddScoped<IPersonStatusService, PersonStatusService>();
+            services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
+            services.AddScoped<IContractTypeService, ContractTypeService>();
+            services.AddScoped<IContractTypeTranslationRepository, ContractTypeTranslationRepository>();
+            services.AddScoped<IContractTypeTranslationService, ContractTypeTranslationService>();
 
             return services;
         }

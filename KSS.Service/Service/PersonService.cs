@@ -43,7 +43,6 @@ namespace KSS.Service.Service
                 MilitaryServiceLocationId = request.MilitaryServiceLocationId,
                 InsuranceTypeId = request.InsuranceTypeId,
                 InsuranceNumber = request.InsuranceNumber,
-                IsActive = request.IsActive,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };

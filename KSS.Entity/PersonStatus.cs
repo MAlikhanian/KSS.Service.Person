@@ -3,14 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KSS.Entity
 {
-    [Table("PersonNationality", Schema = "dbo")]
-    public class PersonNationality
+    [Table("PersonStatus", Schema = "dbo")]
+    public class PersonStatus
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public Guid PersonId { get; set; }
-        public short CountryId { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime StartDate { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? EndDate { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

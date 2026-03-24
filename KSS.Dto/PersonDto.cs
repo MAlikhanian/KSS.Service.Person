@@ -22,11 +22,11 @@ namespace KSS.Dto
         public short BirthCertificateIssueRegionId { get; set; }
         public int BirthCertificateIssueCityId { get; set; }
         public byte MaritalStatusId { get; set; }
-        public short ReligionId { get; set; }
+        public short? ReligionId { get; set; }
         public string? PassportNumber { get; set; }
-        public byte MilitaryServiceStatusId { get; set; }
+        public byte? MilitaryServiceStatusId { get; set; }
         public short? MilitaryServiceLocationId { get; set; }
-        public byte InsuranceTypeId { get; set; }
+        public byte? InsuranceTypeId { get; set; }
         public string? InsuranceNumber { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

@@ -38,16 +38,16 @@ namespace KSS.Dto
 
         public byte MaritalStatusId { get; set; } = 1;
 
-        public short ReligionId { get; set; } = 1;
+        public short? ReligionId { get; set; }
 
         [MaxLength(20)]
         public string? PassportNumber { get; set; }
 
-        public byte MilitaryServiceStatusId { get; set; } = 1;
+        public byte? MilitaryServiceStatusId { get; set; }
 
         public short? MilitaryServiceLocationId { get; set; }
 
-        public byte InsuranceTypeId { get; set; } = 1;
+        public byte? InsuranceTypeId { get; set; }
 
         [MaxLength(30)]
         public string? InsuranceNumber { get; set; }

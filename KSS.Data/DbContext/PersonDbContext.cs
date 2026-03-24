@@ -41,5 +41,11 @@ namespace KSS.Data.DbContexts
         public DbSet<PersonStatus> PersonStatuses { get; set; }
         public DbSet<ContractType> ContractTypes { get; set; }
         public DbSet<ContractTypeTranslation> ContractTypeTranslations { get; set; }
+        public DbSet<BusinessSector> BusinessSectors { get; set; }
+        public DbSet<BusinessSectorTranslation> BusinessSectorTranslations { get; set; }
+        public DbSet<BusinessUnit> BusinessUnits { get; set; }
+        public DbSet<BusinessUnitTranslation> BusinessUnitTranslations { get; set; }
+        public DbSet<JobPosition> JobPositions { get; set; }
+        public DbSet<JobPositionTranslation> JobPositionTranslations { get; set; }
     }
 }

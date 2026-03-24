@@ -1,6 +1,7 @@
 using AutoMapper;
 using KSS.Dto;
 using KSS.Entity;
+using KSS.Helper;
 using KSS.Repository.IRepository;
 using KSS.Service.IService;
 
@@ -47,35 +48,42 @@ namespace KSS.Service.Service
                 UpdatedAt = DateTime.UtcNow
             };
 
-            // Save person without committing yet
-            await _personRepository.AddAsync(person, false);
-
-            // Create each translation (FA, EN) — save all without committing
-            var validTranslations = request.Translations
-                .Where(tr => !string.IsNullOrWhiteSpace(tr.FirstName) || !string.IsNullOrWhiteSpace(tr.LastName))
-                .ToList();
-
-            for (var i = 0; i < validTranslations.Count; i++)
+            try
             {
-                var tr = validTranslations[i];
-                var translation = new PersonTranslation
+                // Save person without committing yet
+                await _personRepository.AddAsync(person, false);
+
+                // Create each translation (FA, EN) — save all without committing
+                var validTranslations = request.Translations
+                    .Where(tr => !string.IsNullOrWhiteSpace(tr.FirstName) || !string.IsNullOrWhiteSpace(tr.LastName))
+                    .ToList();
+
+                for (var i = 0; i < validTranslations.Count; i++)
                 {
-                    PersonId = person.Id,
-                    LanguageId = tr.LanguageId,
-                    FirstName = tr.FirstName,
-                    LastName = tr.LastName,
-                    FatherName = tr.FatherName
-                };
+                    var tr = validTranslations[i];
+                    var translation = new PersonTranslation
+                    {
+                        PersonId = person.Id,
+                        LanguageId = tr.LanguageId,
+                        FirstName = tr.FirstName,
+                        LastName = tr.LastName,
+                        FatherName = tr.FatherName
+                    };
 
-                // Commit on the last translation
-                var isLast = i == validTranslations.Count - 1;
-                await _personTranslationRepository.AddAsync(translation, isLast);
+                    // Commit on the last translation
+                    var isLast = i == validTranslations.Count - 1;
+                    await _personTranslationRepository.AddAsync(translation, isLast);
+                }
+
+                // If no translations were provided, still commit the person
+                if (validTranslations.Count == 0)
+                {
+                    await _personRepository.SaveChangesAsync();
+                }
             }
-
-            // If no translations were provided, still commit the person
-            if (validTranslations.Count == 0)
+            catch (Exception ex)
             {
-                await _personRepository.SaveChangesAsync();
+                throw new BusinessRuleException(SqlExceptionHandler.GetErrorCode(ex));
             }
 
             return _mapper.Map<PersonDto>(person);

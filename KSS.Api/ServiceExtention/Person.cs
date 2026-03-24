@@ -95,6 +95,18 @@ namespace KSS.Api.ServiceExtention
             services.AddScoped<IContractTypeService, ContractTypeService>();
             services.AddScoped<IContractTypeTranslationRepository, ContractTypeTranslationRepository>();
             services.AddScoped<IContractTypeTranslationService, ContractTypeTranslationService>();
+            services.AddScoped<IBusinessSectorRepository, BusinessSectorRepository>();
+            services.AddScoped<IBusinessSectorService, BusinessSectorService>();
+            services.AddScoped<IBusinessSectorTranslationRepository, BusinessSectorTranslationRepository>();
+            services.AddScoped<IBusinessSectorTranslationService, BusinessSectorTranslationService>();
+            services.AddScoped<IBusinessUnitRepository, BusinessUnitRepository>();
+            services.AddScoped<IBusinessUnitService, BusinessUnitService>();
+            services.AddScoped<IBusinessUnitTranslationRepository, BusinessUnitTranslationRepository>();
+            services.AddScoped<IBusinessUnitTranslationService, BusinessUnitTranslationService>();
+            services.AddScoped<IJobPositionRepository, JobPositionRepository>();
+            services.AddScoped<IJobPositionService, JobPositionService>();
+            services.AddScoped<IJobPositionTranslationRepository, JobPositionTranslationRepository>();
+            services.AddScoped<IJobPositionTranslationService, JobPositionTranslationService>();
 
             return services;
         }

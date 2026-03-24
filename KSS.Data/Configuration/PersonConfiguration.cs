@@ -203,7 +203,6 @@ namespace KSS.Data.Configuration
         public void Configure(EntityTypeBuilder<JobTitle> b)
         {
             b.HasMany(x => x.Translations).WithOne(x => x.JobTitle).HasForeignKey(x => x.JobTitleId).OnDelete(DeleteBehavior.Cascade);
-            b.HasMany(x => x.Employments).WithOne(x => x.JobTitle).HasForeignKey(x => x.JobTitleId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -212,14 +211,6 @@ namespace KSS.Data.Configuration
         public void Configure(EntityTypeBuilder<JobTitleTranslation> b)
         {
             b.HasKey(x => new { x.JobTitleId, x.LanguageId });
-        }
-    }
-
-    public class EmploymentConfiguration : IEntityTypeConfiguration<Employment>
-    {
-        public void Configure(EntityTypeBuilder<Employment> b)
-        {
-            b.HasOne(x => x.JobTitle).WithMany(x => x.Employments).HasForeignKey(x => x.JobTitleId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -324,6 +315,54 @@ namespace KSS.Data.Configuration
         public void Configure(EntityTypeBuilder<ContractTypeTranslation> b)
         {
             b.HasKey(x => new { x.ContractTypeId, x.LanguageId });
+        }
+    }
+
+    public class BusinessSectorConfiguration : IEntityTypeConfiguration<BusinessSector>
+    {
+        public void Configure(EntityTypeBuilder<BusinessSector> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.BusinessSector).HasForeignKey(x => x.BusinessSectorId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class BusinessSectorTranslationConfiguration : IEntityTypeConfiguration<BusinessSectorTranslation>
+    {
+        public void Configure(EntityTypeBuilder<BusinessSectorTranslation> b)
+        {
+            b.HasKey(x => new { x.BusinessSectorId, x.LanguageId });
+        }
+    }
+
+    public class BusinessUnitConfiguration : IEntityTypeConfiguration<BusinessUnit>
+    {
+        public void Configure(EntityTypeBuilder<BusinessUnit> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.BusinessUnit).HasForeignKey(x => x.BusinessUnitId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class BusinessUnitTranslationConfiguration : IEntityTypeConfiguration<BusinessUnitTranslation>
+    {
+        public void Configure(EntityTypeBuilder<BusinessUnitTranslation> b)
+        {
+            b.HasKey(x => new { x.BusinessUnitId, x.LanguageId });
+        }
+    }
+
+    public class JobPositionConfiguration : IEntityTypeConfiguration<JobPosition>
+    {
+        public void Configure(EntityTypeBuilder<JobPosition> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.JobPosition).HasForeignKey(x => x.JobPositionId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class JobPositionTranslationConfiguration : IEntityTypeConfiguration<JobPositionTranslation>
+    {
+        public void Configure(EntityTypeBuilder<JobPositionTranslation> b)
+        {
+            b.HasKey(x => new { x.JobPositionId, x.LanguageId });
         }
     }
 }

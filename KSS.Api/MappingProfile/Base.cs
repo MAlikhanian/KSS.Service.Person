@@ -48,6 +48,12 @@ namespace KSS.Api.MappingProfile
             CreateMap<PersonStatus, PersonStatusDto>().ReverseMap();
             CreateMap<ContractType, ContractTypeDto>().ReverseMap();
             CreateMap<ContractTypeTranslation, ContractTypeTranslationDto>().ReverseMap();
+            CreateMap<BusinessSector, BusinessSectorDto>().ReverseMap();
+            CreateMap<BusinessSectorTranslation, BusinessSectorTranslationDto>().ReverseMap();
+            CreateMap<BusinessUnit, BusinessUnitDto>().ReverseMap();
+            CreateMap<BusinessUnitTranslation, BusinessUnitTranslationDto>().ReverseMap();
+            CreateMap<JobPosition, JobPositionDto>().ReverseMap();
+            CreateMap<JobPositionTranslation, JobPositionTranslationDto>().ReverseMap();
         }
     }
 }

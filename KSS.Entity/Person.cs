@@ -34,13 +34,13 @@ namespace KSS.Entity
         public short BirthCertificateIssueRegionId { get; set; }
         public int BirthCertificateIssueCityId { get; set; }
         public byte MaritalStatusId { get; set; }
-        public short ReligionId { get; set; }
+        public short? ReligionId { get; set; }
         [MaxLength(20)]
         [Unicode(false)]
         public string? PassportNumber { get; set; }
-        public byte MilitaryServiceStatusId { get; set; }
+        public byte? MilitaryServiceStatusId { get; set; }
         public short? MilitaryServiceLocationId { get; set; }
-        public byte InsuranceTypeId { get; set; }
+        public byte? InsuranceTypeId { get; set; }
         [MaxLength(30)]
         [Unicode(false)]
         public string? InsuranceNumber { get; set; }

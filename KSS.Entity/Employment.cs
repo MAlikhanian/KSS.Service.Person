@@ -11,7 +11,9 @@ namespace KSS.Entity
         public Guid Id { get; set; }
         public Guid PersonId { get; set; }
         public Guid CompanyId { get; set; }
-        public short JobTitleId { get; set; }
+        public short BusinessSectorId { get; set; }
+        public short BusinessUnitId { get; set; }
+        public short JobPositionId { get; set; }
         [Column(TypeName = "date")]
         public DateTime FromDate { get; set; }
         [Column(TypeName = "date")]
@@ -24,8 +26,6 @@ namespace KSS.Entity
 
         [ForeignKey(nameof(PersonId))]
         public Person Person { get; set; } = null!;
-        [ForeignKey(nameof(JobTitleId))]
-        public JobTitle JobTitle { get; set; } = null!;
         [ForeignKey(nameof(ContractTypeId))]
         public ContractType ContractType { get; set; } = null!;
     }

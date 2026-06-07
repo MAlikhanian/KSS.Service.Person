@@ -56,6 +56,6 @@ namespace KSS.Dto
         /// Translations for FA and EN (like company pattern).
         /// Each entry must have LanguageId, FirstName, LastName. FatherName is optional.
         /// </summary>
-        public List<PersonTranslationDto> Translations { get; set; } = new();
+        public List<TranslationDto> Translations { get; set; } = new();
     }
 }

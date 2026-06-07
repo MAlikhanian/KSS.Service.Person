@@ -71,15 +71,19 @@ namespace KSS.Data.Configuration
             b.HasMany(x => x.RelationshipsAsPerson).WithOne(x => x.Person).HasForeignKey(x => x.PersonId).OnDelete(DeleteBehavior.NoAction);
             b.HasMany(x => x.RelationshipsAsRelatedPerson).WithOne(x => x.RelatedPerson).HasForeignKey(x => x.RelatedPersonId).OnDelete(DeleteBehavior.NoAction);
             b.HasMany(x => x.Nationalities).WithOne(x => x.Person).HasForeignKey(x => x.PersonId).OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(x => x.Documents).WithOne(x => x.Person).HasForeignKey(x => x.PersonId).OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(x => x.Educations).WithOne(x => x.Person).HasForeignKey(x => x.PersonId).OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 
-    public class PersonTranslationConfiguration : IEntityTypeConfiguration<PersonTranslation>
+    public class TranslationConfiguration : IEntityTypeConfiguration<Translation>
     {
-        public void Configure(EntityTypeBuilder<PersonTranslation> b)
+        public void Configure(EntityTypeBuilder<Translation> b)
         {
             b.HasKey(x => new { x.PersonId, x.LanguageId });
-            b.ToTable("PersonTranslation", "dbo", tb => tb.HasTrigger("PersonTranslation_Trigger"));
+            b.ToTable("Translation", "dbo", tb => tb.HasTrigger("Translation_Trigger"));
+
         }
     }
 
@@ -104,6 +108,7 @@ namespace KSS.Data.Configuration
         public void Configure(EntityTypeBuilder<Email> b)
         {
             b.HasOne(x => x.Label).WithMany(x => x.Emails).HasForeignKey(x => x.LabelId).OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 
@@ -128,6 +133,7 @@ namespace KSS.Data.Configuration
         public void Configure(EntityTypeBuilder<Phone> b)
         {
             b.HasOne(x => x.Label).WithMany(x => x.Phones).HasForeignKey(x => x.LabelId).OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 
@@ -153,6 +159,7 @@ namespace KSS.Data.Configuration
         {
             b.HasOne(x => x.Label).WithMany(x => x.Addresses).HasForeignKey(x => x.LabelId).OnDelete(DeleteBehavior.Restrict);
             b.HasMany(x => x.Translations).WithOne(x => x.Address).HasForeignKey(x => x.AddressId).OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 
@@ -235,6 +242,7 @@ namespace KSS.Data.Configuration
         public void Configure(EntityTypeBuilder<Relationship> b)
         {
             b.HasOne(x => x.RelationshipType).WithMany(x => x.Relationships).HasForeignKey(x => x.RelationshipTypeId).OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 
@@ -363,6 +371,174 @@ namespace KSS.Data.Configuration
         public void Configure(EntityTypeBuilder<JobPositionTranslation> b)
         {
             b.HasKey(x => new { x.JobPositionId, x.LanguageId });
+        }
+    }
+
+    public class DocumentTypeConfiguration : IEntityTypeConfiguration<DocumentType>
+    {
+        public void Configure(EntityTypeBuilder<DocumentType> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.DocumentType).HasForeignKey(x => x.DocumentTypeId).OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(x => x.Documents).WithOne(x => x.DocumentType).HasForeignKey(x => x.DocumentTypeId).OnDelete(DeleteBehavior.Restrict);
+            b.Property(x => x.IsActive).HasDefaultValue(true);
+
+        }
+    }
+
+    public class DocumentTypeTranslationConfiguration : IEntityTypeConfiguration<DocumentTypeTranslation>
+    {
+        public void Configure(EntityTypeBuilder<DocumentTypeTranslation> b)
+        {
+            b.HasKey(x => new { x.DocumentTypeId, x.LanguageId });
+        }
+    }
+
+    public class DocumentConfiguration : IEntityTypeConfiguration<Document>
+    {
+        public void Configure(EntityTypeBuilder<Document> b)
+        {
+            b.HasIndex(x => x.PersonId);
+
+        }
+    }
+
+    public class NationalityConfiguration : IEntityTypeConfiguration<Nationality>
+    {
+        public void Configure(EntityTypeBuilder<Nationality> b) { }
+    }
+
+    public class StatusConfiguration : IEntityTypeConfiguration<Status>
+    {
+        public void Configure(EntityTypeBuilder<Status> b) { }
+    }
+
+    public class EmploymentConfiguration : IEntityTypeConfiguration<Employment>
+    {
+        public void Configure(EntityTypeBuilder<Employment> b)
+        {
+            b.HasMany(x => x.EmploymentDocuments).WithOne(x => x.Employment).HasForeignKey(x => x.EmploymentId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class EmploymentDocumentConfiguration : IEntityTypeConfiguration<EmploymentDocument>
+    {
+        public void Configure(EntityTypeBuilder<EmploymentDocument> b)
+        {
+            b.HasIndex(x => x.EmploymentId);
+            b.HasOne(x => x.EmploymentDocumentType)
+                .WithMany(x => x.EmploymentDocuments)
+                .HasForeignKey(x => x.EmploymentDocumentTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+
+    public class EmploymentDocumentTypeConfiguration : IEntityTypeConfiguration<EmploymentDocumentType>
+    {
+        public void Configure(EntityTypeBuilder<EmploymentDocumentType> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.EmploymentDocumentType).HasForeignKey(x => x.EmploymentDocumentTypeId).OnDelete(DeleteBehavior.Cascade);
+            b.Property(x => x.IsActive).HasDefaultValue(true);
+        }
+    }
+
+    public class EmploymentDocumentTypeTranslationConfiguration : IEntityTypeConfiguration<EmploymentDocumentTypeTranslation>
+    {
+        public void Configure(EntityTypeBuilder<EmploymentDocumentTypeTranslation> b)
+        {
+            b.HasKey(x => new { x.EmploymentDocumentTypeId, x.LanguageId });
+        }
+    }
+
+    public class EducationLevelConfiguration : IEntityTypeConfiguration<EducationLevel>
+    {
+        public void Configure(EntityTypeBuilder<EducationLevel> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.EducationLevel).HasForeignKey(x => x.EducationLevelId).OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(x => x.Educations).WithOne(x => x.EducationLevel).HasForeignKey(x => x.EducationLevelId).OnDelete(DeleteBehavior.Restrict);
+            b.Property(x => x.IsActive).HasDefaultValue(true);
+        }
+    }
+
+    public class EducationLevelTranslationConfiguration : IEntityTypeConfiguration<EducationLevelTranslation>
+    {
+        public void Configure(EntityTypeBuilder<EducationLevelTranslation> b)
+        {
+            b.HasKey(x => new { x.EducationLevelId, x.LanguageId });
+        }
+    }
+
+    public class FieldOfStudyConfiguration : IEntityTypeConfiguration<FieldOfStudy>
+    {
+        public void Configure(EntityTypeBuilder<FieldOfStudy> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.FieldOfStudy).HasForeignKey(x => x.FieldOfStudyId).OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(x => x.Educations).WithOne(x => x.FieldOfStudy).HasForeignKey(x => x.FieldOfStudyId).OnDelete(DeleteBehavior.Restrict);
+            b.Property(x => x.IsActive).HasDefaultValue(true);
+        }
+    }
+
+    public class FieldOfStudyTranslationConfiguration : IEntityTypeConfiguration<FieldOfStudyTranslation>
+    {
+        public void Configure(EntityTypeBuilder<FieldOfStudyTranslation> b)
+        {
+            b.HasKey(x => new { x.FieldOfStudyId, x.LanguageId });
+        }
+    }
+
+    public class InstitutionConfiguration : IEntityTypeConfiguration<Institution>
+    {
+        public void Configure(EntityTypeBuilder<Institution> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.Institution).HasForeignKey(x => x.InstitutionId).OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(x => x.Educations).WithOne(x => x.Institution).HasForeignKey(x => x.InstitutionId).OnDelete(DeleteBehavior.Restrict);
+            b.Property(x => x.IsActive).HasDefaultValue(true);
+            b.HasIndex(x => x.Code).IsUnique();
+        }
+    }
+
+    public class InstitutionTranslationConfiguration : IEntityTypeConfiguration<InstitutionTranslation>
+    {
+        public void Configure(EntityTypeBuilder<InstitutionTranslation> b)
+        {
+            b.HasKey(x => new { x.InstitutionId, x.LanguageId });
+        }
+    }
+
+    public class EducationConfiguration : IEntityTypeConfiguration<Education>
+    {
+        public void Configure(EntityTypeBuilder<Education> b)
+        {
+            b.HasIndex(x => x.PersonId);
+            b.HasMany(x => x.EducationDocuments).WithOne(x => x.Education).HasForeignKey(x => x.EducationId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class EducationDocumentConfiguration : IEntityTypeConfiguration<EducationDocument>
+    {
+        public void Configure(EntityTypeBuilder<EducationDocument> b)
+        {
+            b.HasIndex(x => x.EducationId);
+            b.HasOne(x => x.EducationDocumentType)
+                .WithMany(x => x.EducationDocuments)
+                .HasForeignKey(x => x.EducationDocumentTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+
+    public class EducationDocumentTypeConfiguration : IEntityTypeConfiguration<EducationDocumentType>
+    {
+        public void Configure(EntityTypeBuilder<EducationDocumentType> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.EducationDocumentType).HasForeignKey(x => x.EducationDocumentTypeId).OnDelete(DeleteBehavior.Cascade);
+            b.Property(x => x.IsActive).HasDefaultValue(true);
+        }
+    }
+
+    public class EducationDocumentTypeTranslationConfiguration : IEntityTypeConfiguration<EducationDocumentTypeTranslation>
+    {
+        public void Configure(EntityTypeBuilder<EducationDocumentTypeTranslation> b)
+        {
+            b.HasKey(x => new { x.EducationDocumentTypeId, x.LanguageId });
         }
     }
 }

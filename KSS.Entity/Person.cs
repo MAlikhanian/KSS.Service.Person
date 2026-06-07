@@ -23,17 +23,16 @@ namespace KSS.Entity
         [MaxLength(20)]
         [Unicode(false)]
         public string? BirthCertificateNumber { get; set; }
+        public byte? BirthCertificateSeriesLetterId { get; set; }
         [MaxLength(2)]
         [Unicode(false)]
         public string? BirthCertificateSeriesNumber { get; set; }
-        public byte? BirthCertificateSeriesLetterId { get; set; }
         [MaxLength(6)]
         [Unicode(false)]
         public string? BirthCertificateSerial { get; set; }
         public short BirthCertificateIssueCountryId { get; set; }
         public short BirthCertificateIssueRegionId { get; set; }
         public int BirthCertificateIssueCityId { get; set; }
-        public byte MaritalStatusId { get; set; }
         public short? ReligionId { get; set; }
         [MaxLength(20)]
         [Unicode(false)]
@@ -44,8 +43,14 @@ namespace KSS.Entity
         [MaxLength(30)]
         [Unicode(false)]
         public string? InsuranceNumber { get; set; }
+        public byte MaritalStatusId { get; set; }
+        public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public Guid? UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public Guid? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [ForeignKey(nameof(SexId))]
         public Sex Sex { get; set; } = null!;
@@ -61,15 +66,16 @@ namespace KSS.Entity
         public BirthCertificateSeriesLetter? BirthCertificateSeriesLetter { get; set; }
         [ForeignKey(nameof(ReligionId))]
         public Religion Religion { get; set; } = null!;
-        public ICollection<PersonTranslation> Translations { get; set; } = new List<PersonTranslation>();
+        public ICollection<Translation> Translations { get; set; } = new List<Translation>();
         public ICollection<Email> Emails { get; set; } = new List<Email>();
         public ICollection<Phone> Phones { get; set; } = new List<Phone>();
         public ICollection<Address> Addresses { get; set; } = new List<Address>();
         public ICollection<Employment> Employments { get; set; } = new List<Employment>();
         public ICollection<Relationship> RelationshipsAsPerson { get; set; } = new List<Relationship>();
         public ICollection<Relationship> RelationshipsAsRelatedPerson { get; set; } = new List<Relationship>();
-        public ICollection<PersonNationality> Nationalities { get; set; } = new List<PersonNationality>();
-        public ICollection<PersonStatus> Statuses { get; set; } = new List<PersonStatus>();
+        public ICollection<Nationality> Nationalities { get; set; } = new List<Nationality>();
+        public ICollection<Status> Statuses { get; set; } = new List<Status>();
+        public ICollection<Document> Documents { get; set; } = new List<Document>();
+        public ICollection<Education> Educations { get; set; } = new List<Education>();
     }
 }
-

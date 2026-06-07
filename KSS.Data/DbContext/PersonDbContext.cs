@@ -8,7 +8,7 @@ namespace KSS.Data.DbContexts
         public DbSet<Sex> Sexes { get; set; }
         public DbSet<SexTranslation> SexTranslations { get; set; }
         public DbSet<Person> Persons { get; set; }
-        public DbSet<PersonTranslation> PersonTranslations { get; set; }
+        public DbSet<Translation> Translations { get; set; }
         public DbSet<EmailLabel> EmailLabels { get; set; }
         public DbSet<EmailLabelTranslation> EmailLabelTranslations { get; set; }
         public DbSet<Email> Emails { get; set; }
@@ -31,14 +31,14 @@ namespace KSS.Data.DbContexts
         public DbSet<Relationship> Relationships { get; set; }
         public DbSet<MaritalStatus> MaritalStatuses { get; set; }
         public DbSet<MaritalStatusTranslation> MaritalStatusTranslations { get; set; }
-        public DbSet<PersonNationality> PersonNationalities { get; set; }
+        public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<Religion> Religions { get; set; }
         public DbSet<ReligionTranslation> ReligionTranslations { get; set; }
         public DbSet<BirthCertificateSeriesLetter> BirthCertificateSeriesLetters { get; set; }
         public DbSet<BirthCertificateSeriesLetterTranslation> BirthCertificateSeriesLetterTranslations { get; set; }
         public DbSet<MilitaryServiceLocation> MilitaryServiceLocations { get; set; }
         public DbSet<MilitaryServiceLocationTranslation> MilitaryServiceLocationTranslations { get; set; }
-        public DbSet<PersonStatus> PersonStatuses { get; set; }
+        public DbSet<Status> Statuses { get; set; }
         public DbSet<ContractType> ContractTypes { get; set; }
         public DbSet<ContractTypeTranslation> ContractTypeTranslations { get; set; }
         public DbSet<BusinessSector> BusinessSectors { get; set; }

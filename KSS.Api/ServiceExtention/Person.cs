@@ -17,12 +17,13 @@ namespace KSS.Api.ServiceExtention
 
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<IPersonAccessChecker, PersonAccessChecker>();
             services.AddScoped<ISexRepository, SexRepository>();
             services.AddScoped<ISexService, SexService>();
             services.AddScoped<ISexTranslationRepository, SexTranslationRepository>();
             services.AddScoped<ISexTranslationService, SexTranslationService>();
-            services.AddScoped<IPersonTranslationRepository, PersonTranslationRepository>();
-            services.AddScoped<IPersonTranslationService, PersonTranslationService>();
+            services.AddScoped<ITranslationRepository, TranslationRepository>();
+            services.AddScoped<ITranslationService, TranslationService>();
             services.AddScoped<IEmailLabelRepository, EmailLabelRepository>();
             services.AddScoped<IEmailLabelService, EmailLabelService>();
             services.AddScoped<IEmailLabelTranslationRepository, EmailLabelTranslationRepository>();
@@ -75,8 +76,8 @@ namespace KSS.Api.ServiceExtention
             services.AddScoped<IMaritalStatusService, MaritalStatusService>();
             services.AddScoped<IMaritalStatusTranslationRepository, MaritalStatusTranslationRepository>();
             services.AddScoped<IMaritalStatusTranslationService, MaritalStatusTranslationService>();
-            services.AddScoped<IPersonNationalityRepository, PersonNationalityRepository>();
-            services.AddScoped<IPersonNationalityService, PersonNationalityService>();
+            services.AddScoped<INationalityRepository, NationalityRepository>();
+            services.AddScoped<INationalityService, NationalityService>();
             services.AddScoped<IReligionRepository, ReligionRepository>();
             services.AddScoped<IReligionService, ReligionService>();
             services.AddScoped<IReligionTranslationRepository, ReligionTranslationRepository>();
@@ -89,8 +90,8 @@ namespace KSS.Api.ServiceExtention
             services.AddScoped<IMilitaryServiceLocationService, MilitaryServiceLocationService>();
             services.AddScoped<IMilitaryServiceLocationTranslationRepository, MilitaryServiceLocationTranslationRepository>();
             services.AddScoped<IMilitaryServiceLocationTranslationService, MilitaryServiceLocationTranslationService>();
-            services.AddScoped<IPersonStatusRepository, PersonStatusRepository>();
-            services.AddScoped<IPersonStatusService, PersonStatusService>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
+            services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
             services.AddScoped<IContractTypeService, ContractTypeService>();
             services.AddScoped<IContractTypeTranslationRepository, ContractTypeTranslationRepository>();
@@ -107,6 +108,41 @@ namespace KSS.Api.ServiceExtention
             services.AddScoped<IJobPositionService, JobPositionService>();
             services.AddScoped<IJobPositionTranslationRepository, JobPositionTranslationRepository>();
             services.AddScoped<IJobPositionTranslationService, JobPositionTranslationService>();
+            services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
+            services.AddScoped<IDocumentTypeService, DocumentTypeService>();
+            services.AddScoped<IDocumentTypeTranslationRepository, DocumentTypeTranslationRepository>();
+            services.AddScoped<IDocumentTypeTranslationService, DocumentTypeTranslationService>();
+            services.AddScoped<IEducationDocumentTypeRepository, EducationDocumentTypeRepository>();
+            services.AddScoped<IEducationDocumentTypeService, EducationDocumentTypeService>();
+            services.AddScoped<IEducationDocumentTypeTranslationRepository, EducationDocumentTypeTranslationRepository>();
+            services.AddScoped<IEducationDocumentTypeTranslationService, EducationDocumentTypeTranslationService>();
+            services.AddScoped<IEmploymentDocumentTypeRepository, EmploymentDocumentTypeRepository>();
+            services.AddScoped<IEmploymentDocumentTypeService, EmploymentDocumentTypeService>();
+            services.AddScoped<IEmploymentDocumentTypeTranslationRepository, EmploymentDocumentTypeTranslationRepository>();
+            services.AddScoped<IEmploymentDocumentTypeTranslationService, EmploymentDocumentTypeTranslationService>();
+            services.AddScoped<IDocumentRepository, DocumentRepository>();
+            services.AddScoped<IDocumentService, DocumentService>();
+            services.AddScoped<IEmploymentDocumentRepository, EmploymentDocumentRepository>();
+            services.AddScoped<IEmploymentDocumentService, EmploymentDocumentService>();
+            services.AddScoped<IInstitutionRepository, InstitutionRepository>();
+            services.AddScoped<IInstitutionService, InstitutionService>();
+            services.AddScoped<IInstitutionTranslationRepository, InstitutionTranslationRepository>();
+            services.AddScoped<IInstitutionTranslationService, InstitutionTranslationService>();
+            services.AddScoped<IEducationLevelTranslationRepository, EducationLevelTranslationRepository>();
+            services.AddScoped<IEducationLevelTranslationService, EducationLevelTranslationService>();
+            services.AddScoped<IFieldOfStudyTranslationRepository, FieldOfStudyTranslationRepository>();
+            services.AddScoped<IFieldOfStudyTranslationService, FieldOfStudyTranslationService>();
+            services.AddScoped<IEducationRepository, EducationRepository>();
+            services.AddScoped<IEducationService, EducationService>();
+            services.AddScoped<IEducationDocumentRepository, EducationDocumentRepository>();
+            services.AddScoped<IEducationDocumentService, EducationDocumentService>();
+            services.AddScoped<IAccessRepository, AccessRepository>();
+            services.AddScoped<IAccessService, AccessService>();
+            services.AddScoped<IRoleAccessRepository, RoleAccessRepository>();
+            services.AddScoped<IRoleAccessService, RoleAccessService>();
+
+            // Required so PersonService and MainDbContext can read JWT claims for the caller.
+            services.AddHttpContextAccessor();
 
             return services;
         }

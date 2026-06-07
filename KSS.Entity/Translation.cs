@@ -1,0 +1,31 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace KSS.Entity
+{
+    [Table("Translation", Schema = "dbo")]
+    public class Translation
+    {
+        public Guid PersonId { get; set; }
+        public short LanguageId { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string FirstName { get; set; } = string.Empty;
+        [Required]
+        [MaxLength(50)]
+        public string LastName { get; set; } = string.Empty;
+        [MaxLength(50)]
+        public string? FatherName { get; set; }
+        [MaxLength(100)]
+        public string? DisplayName { get; set; }
+        public Guid CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public Guid? UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public Guid? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+
+        [ForeignKey(nameof(PersonId))]
+        public Person Person { get; set; } = null!;
+    }
+}

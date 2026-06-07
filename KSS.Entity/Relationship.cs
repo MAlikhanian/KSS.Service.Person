@@ -12,8 +12,13 @@ namespace KSS.Entity
         public Guid PersonId { get; set; }
         public Guid RelatedPersonId { get; set; }
         public byte RelationshipTypeId { get; set; }
+        public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public Guid? UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public Guid? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [ForeignKey(nameof(PersonId))]
         public Person Person { get; set; } = null!;
@@ -23,4 +28,3 @@ namespace KSS.Entity
         public RelationshipType RelationshipType { get; set; } = null!;
     }
 }
-

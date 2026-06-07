@@ -11,7 +11,7 @@ namespace KSS.Api.MappingProfile
             CreateMap<Person, PersonDto>().ReverseMap();
             CreateMap<Sex, SexDto>().ReverseMap();
             CreateMap<SexTranslation, SexTranslationDto>().ReverseMap();
-            CreateMap<PersonTranslation, PersonTranslationDto>().ReverseMap();
+            CreateMap<Translation, TranslationDto>().ReverseMap();
             CreateMap<EmailLabel, EmailLabelDto>().ReverseMap();
             CreateMap<EmailLabelTranslation, EmailLabelTranslationDto>().ReverseMap();
             CreateMap<Email, EmailDto>().ReverseMap();
@@ -38,14 +38,14 @@ namespace KSS.Api.MappingProfile
             CreateMap<InsuranceTypeTranslation, InsuranceTypeTranslationDto>().ReverseMap();
             CreateMap<MaritalStatus, MaritalStatusDto>().ReverseMap();
             CreateMap<MaritalStatusTranslation, MaritalStatusTranslationDto>().ReverseMap();
-            CreateMap<PersonNationality, PersonNationalityDto>().ReverseMap();
+            CreateMap<Nationality, NationalityDto>().ReverseMap();
             CreateMap<Religion, ReligionDto>().ReverseMap();
             CreateMap<ReligionTranslation, ReligionTranslationDto>().ReverseMap();
             CreateMap<BirthCertificateSeriesLetter, BirthCertificateSeriesLetterDto>().ReverseMap();
             CreateMap<BirthCertificateSeriesLetterTranslation, BirthCertificateSeriesLetterTranslationDto>().ReverseMap();
             CreateMap<MilitaryServiceLocation, MilitaryServiceLocationDto>().ReverseMap();
             CreateMap<MilitaryServiceLocationTranslation, MilitaryServiceLocationTranslationDto>().ReverseMap();
-            CreateMap<PersonStatus, PersonStatusDto>().ReverseMap();
+            CreateMap<Status, StatusDto>().ReverseMap();
             CreateMap<ContractType, ContractTypeDto>().ReverseMap();
             CreateMap<ContractTypeTranslation, ContractTypeTranslationDto>().ReverseMap();
             CreateMap<BusinessSector, BusinessSectorDto>().ReverseMap();
@@ -54,6 +54,29 @@ namespace KSS.Api.MappingProfile
             CreateMap<BusinessUnitTranslation, BusinessUnitTranslationDto>().ReverseMap();
             CreateMap<JobPosition, JobPositionDto>().ReverseMap();
             CreateMap<JobPositionTranslation, JobPositionTranslationDto>().ReverseMap();
+            CreateMap<DocumentType, DocumentTypeDto>().ReverseMap();
+            CreateMap<DocumentTypeTranslation, DocumentTypeTranslationDto>().ReverseMap();
+            CreateMap<EducationDocumentType, EducationDocumentTypeDto>().ReverseMap();
+            CreateMap<EducationDocumentTypeTranslation, EducationDocumentTypeTranslationDto>().ReverseMap();
+            CreateMap<EmploymentDocumentType, EmploymentDocumentTypeDto>().ReverseMap();
+            CreateMap<EmploymentDocumentTypeTranslation, EmploymentDocumentTypeTranslationDto>().ReverseMap();
+            CreateMap<Document, DocumentListDto>().ReverseMap();
+            CreateMap<DocumentAddDto, Document>().ReverseMap();
+            CreateMap<DocumentUpdateDto, Document>().ReverseMap();
+            CreateMap<EmploymentDocument, EmploymentDocumentListDto>().ReverseMap();
+            CreateMap<EmploymentDocumentAddDto, EmploymentDocument>().ReverseMap();
+            CreateMap<Institution, InstitutionDto>().ReverseMap();
+            CreateMap<InstitutionTranslation, InstitutionTranslationDto>().ReverseMap();
+            CreateMap<EducationLevelTranslation, EducationLevelTranslationDto>().ReverseMap();
+            CreateMap<FieldOfStudyTranslation, FieldOfStudyTranslationDto>().ReverseMap();
+            CreateMap<Education, EducationListDto>().ReverseMap();
+            CreateMap<EducationAddDto, Education>().ReverseMap();
+            CreateMap<EducationUpdateDto, Education>().ReverseMap();
+            CreateMap<EducationDocument, EducationDocumentListDto>().ReverseMap();
+            CreateMap<EducationDocumentAddDto, EducationDocument>().ReverseMap();
+            CreateMap<Access, AccessDto>().ReverseMap();
+            CreateMap<AccessAddDto, Access>();
+            CreateMap<RoleAccess, RoleAccessDto>().ReverseMap();
         }
     }
 }

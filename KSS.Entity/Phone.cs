@@ -20,8 +20,13 @@ namespace KSS.Entity
         public bool IsPrimary { get; set; }
         public bool IsVerified { get; set; }
         public DateTime? VerifiedAt { get; set; }
+        public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public Guid? UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public Guid? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [ForeignKey(nameof(PersonId))]
         public Person Person { get; set; } = null!;
@@ -29,4 +34,3 @@ namespace KSS.Entity
         public PhoneLabel Label { get; set; } = null!;
     }
 }
-

@@ -13,33 +13,37 @@ namespace KSS.Dto
         public short BirthRegionId { get; set; }
         public int BirthCityId { get; set; }
         public string? BirthCertificateNumber { get; set; }
+        public byte? BirthCertificateSeriesLetterId { get; set; }
         [MaxLength(2)]
         public string? BirthCertificateSeriesNumber { get; set; }
-        public byte? BirthCertificateSeriesLetterId { get; set; }
         [MaxLength(6)]
         public string? BirthCertificateSerial { get; set; }
         public short BirthCertificateIssueCountryId { get; set; }
         public short BirthCertificateIssueRegionId { get; set; }
         public int BirthCertificateIssueCityId { get; set; }
-        public byte MaritalStatusId { get; set; }
         public short? ReligionId { get; set; }
         public string? PassportNumber { get; set; }
         public byte? MilitaryServiceStatusId { get; set; }
         public short? MilitaryServiceLocationId { get; set; }
         public byte? InsuranceTypeId { get; set; }
         public string? InsuranceNumber { get; set; }
+        public byte MaritalStatusId { get; set; }
+        public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        
+        public Guid? UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public Guid? DeletedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
+        public bool IsActive { get; set; }
+
         // Related entities
-        public ICollection<PersonTranslationDto> Translations { get; set; } = new List<PersonTranslationDto>();
+        public ICollection<TranslationDto> Translations { get; set; } = new List<TranslationDto>();
         public ICollection<EmailDto> Emails { get; set; } = new List<EmailDto>();
         public ICollection<PhoneDto> Phones { get; set; } = new List<PhoneDto>();
         public ICollection<AddressDto> Addresses { get; set; } = new List<AddressDto>();
         public ICollection<EmploymentDto> Employments { get; set; } = new List<EmploymentDto>();
-        public ICollection<PersonNationalityDto> Nationalities { get; set; } = new List<PersonNationalityDto>();
+        public ICollection<NationalityDto> Nationalities { get; set; } = new List<NationalityDto>();
         public ICollection<RelationshipDto> RelationshipsAsPerson { get; set; } = new List<RelationshipDto>();
-        public ICollection<PersonStatusDto> Statuses { get; set; } = new List<PersonStatusDto>();
+        public ICollection<StatusDto> Statuses { get; set; } = new List<StatusDto>();
     }
 }
-

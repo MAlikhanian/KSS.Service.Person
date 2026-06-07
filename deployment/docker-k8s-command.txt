@@ -43,3 +43,4 @@ kubectl apply -f deployment.yaml -n kss-person-service
 
 kubectl delete networkpolicy kss-person-service-network-policy -n kss-person-service
 kubectl delete secrets docker-secret -n kss-person-service
+kubectl delete certificate kss-person-service-tls -n kss-person-service

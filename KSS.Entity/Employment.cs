@@ -12,9 +12,9 @@ namespace KSS.Entity
         public Guid PersonId { get; set; }
         public Guid CompanyId { get; set; }
         public byte ContractTypeId { get; set; }
-        public short BusinessSectorId { get; set; }
-        public short BusinessUnitId { get; set; }
-        public short JobPositionId { get; set; }
+        public short EmploymentActivityFieldId { get; set; }
+        public short EmploymentActivityUnitId { get; set; }
+        public short EmploymentPositionId { get; set; }
         [Column(TypeName = "date")]
         public DateTime FromDate { get; set; }
         [Column(TypeName = "date")]

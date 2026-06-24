@@ -171,56 +171,6 @@ namespace KSS.Data.Configuration
         }
     }
 
-    public class JobCategoryConfiguration : IEntityTypeConfiguration<JobCategory>
-    {
-        public void Configure(EntityTypeBuilder<JobCategory> b)
-        {
-            b.HasMany(x => x.Translations).WithOne(x => x.JobCategory).HasForeignKey(x => x.JobCategoryId).OnDelete(DeleteBehavior.Cascade);
-            b.HasMany(x => x.JobDepartments).WithOne(x => x.JobCategory).HasForeignKey(x => x.JobCategoryId).OnDelete(DeleteBehavior.Cascade);
-        }
-    }
-
-    public class JobCategoryTranslationConfiguration : IEntityTypeConfiguration<JobCategoryTranslation>
-    {
-        public void Configure(EntityTypeBuilder<JobCategoryTranslation> b)
-        {
-            b.HasKey(x => new { x.JobCategoryId, x.LanguageId });
-        }
-    }
-
-    public class JobDepartmentConfiguration : IEntityTypeConfiguration<JobDepartment>
-    {
-        public void Configure(EntityTypeBuilder<JobDepartment> b)
-        {
-            b.HasMany(x => x.Translations).WithOne(x => x.JobDepartment).HasForeignKey(x => x.JobDepartmentId).OnDelete(DeleteBehavior.Cascade);
-            b.HasMany(x => x.JobTitles).WithOne(x => x.JobDepartment).HasForeignKey(x => x.JobDepartmentId).OnDelete(DeleteBehavior.Cascade);
-        }
-    }
-
-    public class JobDepartmentTranslationConfiguration : IEntityTypeConfiguration<JobDepartmentTranslation>
-    {
-        public void Configure(EntityTypeBuilder<JobDepartmentTranslation> b)
-        {
-            b.HasKey(x => new { x.JobDepartmentId, x.LanguageId });
-        }
-    }
-
-    public class JobTitleConfiguration : IEntityTypeConfiguration<JobTitle>
-    {
-        public void Configure(EntityTypeBuilder<JobTitle> b)
-        {
-            b.HasMany(x => x.Translations).WithOne(x => x.JobTitle).HasForeignKey(x => x.JobTitleId).OnDelete(DeleteBehavior.Cascade);
-        }
-    }
-
-    public class JobTitleTranslationConfiguration : IEntityTypeConfiguration<JobTitleTranslation>
-    {
-        public void Configure(EntityTypeBuilder<JobTitleTranslation> b)
-        {
-            b.HasKey(x => new { x.JobTitleId, x.LanguageId });
-        }
-    }
-
     public class RelationshipTypeConfiguration : IEntityTypeConfiguration<RelationshipType>
     {
         public void Configure(EntityTypeBuilder<RelationshipType> b)
@@ -326,51 +276,51 @@ namespace KSS.Data.Configuration
         }
     }
 
-    public class BusinessSectorConfiguration : IEntityTypeConfiguration<BusinessSector>
+    public class EmploymentActivityFieldConfiguration : IEntityTypeConfiguration<EmploymentActivityField>
     {
-        public void Configure(EntityTypeBuilder<BusinessSector> b)
+        public void Configure(EntityTypeBuilder<EmploymentActivityField> b)
         {
-            b.HasMany(x => x.Translations).WithOne(x => x.BusinessSector).HasForeignKey(x => x.BusinessSectorId).OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(x => x.Translations).WithOne(x => x.EmploymentActivityField).HasForeignKey(x => x.EmploymentActivityFieldId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 
-    public class BusinessSectorTranslationConfiguration : IEntityTypeConfiguration<BusinessSectorTranslation>
+    public class EmploymentActivityFieldTranslationConfiguration : IEntityTypeConfiguration<EmploymentActivityFieldTranslation>
     {
-        public void Configure(EntityTypeBuilder<BusinessSectorTranslation> b)
+        public void Configure(EntityTypeBuilder<EmploymentActivityFieldTranslation> b)
         {
-            b.HasKey(x => new { x.BusinessSectorId, x.LanguageId });
+            b.HasKey(x => new { x.EmploymentActivityFieldId, x.LanguageId });
         }
     }
 
-    public class BusinessUnitConfiguration : IEntityTypeConfiguration<BusinessUnit>
+    public class EmploymentActivityUnitConfiguration : IEntityTypeConfiguration<EmploymentActivityUnit>
     {
-        public void Configure(EntityTypeBuilder<BusinessUnit> b)
+        public void Configure(EntityTypeBuilder<EmploymentActivityUnit> b)
         {
-            b.HasMany(x => x.Translations).WithOne(x => x.BusinessUnit).HasForeignKey(x => x.BusinessUnitId).OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(x => x.Translations).WithOne(x => x.EmploymentActivityUnit).HasForeignKey(x => x.EmploymentActivityUnitId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 
-    public class BusinessUnitTranslationConfiguration : IEntityTypeConfiguration<BusinessUnitTranslation>
+    public class EmploymentActivityUnitTranslationConfiguration : IEntityTypeConfiguration<EmploymentActivityUnitTranslation>
     {
-        public void Configure(EntityTypeBuilder<BusinessUnitTranslation> b)
+        public void Configure(EntityTypeBuilder<EmploymentActivityUnitTranslation> b)
         {
-            b.HasKey(x => new { x.BusinessUnitId, x.LanguageId });
+            b.HasKey(x => new { x.EmploymentActivityUnitId, x.LanguageId });
         }
     }
 
-    public class JobPositionConfiguration : IEntityTypeConfiguration<JobPosition>
+    public class EmploymentPositionConfiguration : IEntityTypeConfiguration<EmploymentPosition>
     {
-        public void Configure(EntityTypeBuilder<JobPosition> b)
+        public void Configure(EntityTypeBuilder<EmploymentPosition> b)
         {
-            b.HasMany(x => x.Translations).WithOne(x => x.JobPosition).HasForeignKey(x => x.JobPositionId).OnDelete(DeleteBehavior.Cascade);
+            b.HasMany(x => x.Translations).WithOne(x => x.EmploymentPosition).HasForeignKey(x => x.EmploymentPositionId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 
-    public class JobPositionTranslationConfiguration : IEntityTypeConfiguration<JobPositionTranslation>
+    public class EmploymentPositionTranslationConfiguration : IEntityTypeConfiguration<EmploymentPositionTranslation>
     {
-        public void Configure(EntityTypeBuilder<JobPositionTranslation> b)
+        public void Configure(EntityTypeBuilder<EmploymentPositionTranslation> b)
         {
-            b.HasKey(x => new { x.JobPositionId, x.LanguageId });
+            b.HasKey(x => new { x.EmploymentPositionId, x.LanguageId });
         }
     }
 
@@ -540,5 +490,74 @@ namespace KSS.Data.Configuration
         {
             b.HasKey(x => new { x.EducationDocumentTypeId, x.LanguageId });
         }
+    }
+
+    public class ProfessionalTrainingConfiguration : IEntityTypeConfiguration<ProfessionalTraining>
+    {
+        public void Configure(EntityTypeBuilder<ProfessionalTraining> b)
+        {
+            b.HasIndex(x => x.PersonId);
+            b.HasMany(x => x.ProfessionalTrainingDocuments).WithOne(x => x.ProfessionalTraining)
+                .HasForeignKey(x => x.ProfessionalTrainingId).OnDelete(DeleteBehavior.Cascade);
+            b.HasOne(x => x.ProfessionalTrainingType).WithMany(x => x.ProfessionalTrainings)
+                .HasForeignKey(x => x.ProfessionalTrainingTypeId).OnDelete(DeleteBehavior.Restrict);
+            b.HasOne(x => x.ProfessionalTrainingCertificateIssuer).WithMany(x => x.ProfessionalTrainings)
+                .HasForeignKey(x => x.ProfessionalTrainingCertificateIssuerId).OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+
+    public class ProfessionalTrainingDocumentConfiguration : IEntityTypeConfiguration<ProfessionalTrainingDocument>
+    {
+        public void Configure(EntityTypeBuilder<ProfessionalTrainingDocument> b)
+        {
+            b.HasIndex(x => x.ProfessionalTrainingId);
+            b.HasOne(x => x.ProfessionalTrainingDocumentType).WithMany(x => x.ProfessionalTrainingDocuments)
+                .HasForeignKey(x => x.ProfessionalTrainingDocumentTypeId).OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+
+    public class ProfessionalTrainingTypeConfiguration : IEntityTypeConfiguration<ProfessionalTrainingType>
+    {
+        public void Configure(EntityTypeBuilder<ProfessionalTrainingType> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.ProfessionalTrainingType)
+                .HasForeignKey(x => x.ProfessionalTrainingTypeId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class ProfessionalTrainingTypeTranslationConfiguration : IEntityTypeConfiguration<ProfessionalTrainingTypeTranslation>
+    {
+        public void Configure(EntityTypeBuilder<ProfessionalTrainingTypeTranslation> b)
+            => b.HasKey(x => new { x.ProfessionalTrainingTypeId, x.LanguageId });
+    }
+
+    public class ProfessionalTrainingCertificateIssuerConfiguration : IEntityTypeConfiguration<ProfessionalTrainingCertificateIssuer>
+    {
+        public void Configure(EntityTypeBuilder<ProfessionalTrainingCertificateIssuer> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.ProfessionalTrainingCertificateIssuer)
+                .HasForeignKey(x => x.ProfessionalTrainingCertificateIssuerId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class ProfessionalTrainingCertificateIssuerTranslationConfiguration : IEntityTypeConfiguration<ProfessionalTrainingCertificateIssuerTranslation>
+    {
+        public void Configure(EntityTypeBuilder<ProfessionalTrainingCertificateIssuerTranslation> b)
+            => b.HasKey(x => new { x.ProfessionalTrainingCertificateIssuerId, x.LanguageId });
+    }
+
+    public class ProfessionalTrainingDocumentTypeConfiguration : IEntityTypeConfiguration<ProfessionalTrainingDocumentType>
+    {
+        public void Configure(EntityTypeBuilder<ProfessionalTrainingDocumentType> b)
+        {
+            b.HasMany(x => x.Translations).WithOne(x => x.ProfessionalTrainingDocumentType)
+                .HasForeignKey(x => x.ProfessionalTrainingDocumentTypeId).OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class ProfessionalTrainingDocumentTypeTranslationConfiguration : IEntityTypeConfiguration<ProfessionalTrainingDocumentTypeTranslation>
+    {
+        public void Configure(EntityTypeBuilder<ProfessionalTrainingDocumentTypeTranslation> b)
+            => b.HasKey(x => new { x.ProfessionalTrainingDocumentTypeId, x.LanguageId });
     }
 }

@@ -17,9 +17,9 @@ namespace KSS.Entity
         public string NationalId { get; set; } = string.Empty;
         [Column(TypeName = "date")]
         public DateTime DateOfBirth { get; set; }
-        public short BirthCountryId { get; set; }
-        public short BirthRegionId { get; set; }
-        public int BirthCityId { get; set; }
+        public short? BirthCountryId { get; set; }
+        public short? BirthRegionId { get; set; }
+        public int? BirthCityId { get; set; }
         [MaxLength(20)]
         [Unicode(false)]
         public string? BirthCertificateNumber { get; set; }
@@ -30,9 +30,9 @@ namespace KSS.Entity
         [MaxLength(6)]
         [Unicode(false)]
         public string? BirthCertificateSerial { get; set; }
-        public short BirthCertificateIssueCountryId { get; set; }
-        public short BirthCertificateIssueRegionId { get; set; }
-        public int BirthCertificateIssueCityId { get; set; }
+        public short? BirthCertificateIssueCountryId { get; set; }
+        public short? BirthCertificateIssueRegionId { get; set; }
+        public int? BirthCertificateIssueCityId { get; set; }
         public short? ReligionId { get; set; }
         [MaxLength(20)]
         [Unicode(false)]
@@ -43,7 +43,7 @@ namespace KSS.Entity
         [MaxLength(30)]
         [Unicode(false)]
         public string? InsuranceNumber { get; set; }
-        public byte MaritalStatusId { get; set; }
+        public byte? MaritalStatusId { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public Guid? UpdatedBy { get; set; }
@@ -61,7 +61,7 @@ namespace KSS.Entity
         [ForeignKey(nameof(InsuranceTypeId))]
         public InsuranceType InsuranceType { get; set; } = null!;
         [ForeignKey(nameof(MaritalStatusId))]
-        public MaritalStatus MaritalStatus { get; set; } = null!;
+        public MaritalStatus? MaritalStatus { get; set; }
         [ForeignKey(nameof(BirthCertificateSeriesLetterId))]
         public BirthCertificateSeriesLetter? BirthCertificateSeriesLetter { get; set; }
         [ForeignKey(nameof(ReligionId))]

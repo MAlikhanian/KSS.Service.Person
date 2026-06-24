@@ -17,6 +17,19 @@ namespace KSS.Service.IService
         Task<IEnumerable<PersonDirectoryDto>> ListDirectoryAsync();
 
         /// <summary>
+        /// Bypass-access list of all employment rows (minimal shape) for
+        /// cross-service reporting. Like ListDirectoryAsync, skips the per-caller
+        /// visibility filter.
+        /// </summary>
+        Task<IEnumerable<EmploymentDirectoryDto>> ListEmploymentsAsync();
+
+        /// <summary>
+        /// Bypass-access per-person demographics (sex, DOB) for cross-service
+        /// reporting. Like ListDirectoryAsync, skips the per-caller filter.
+        /// </summary>
+        Task<IEnumerable<PersonDemographicsDto>> ListDemographicsAsync();
+
+        /// <summary>
         /// Returns the caller's own minimal person info (Id, NationalId,
         /// translations) based on the personId claim in the JWT.
         /// No section permission is required — every authenticated user can
@@ -32,5 +45,14 @@ namespace KSS.Service.IService
         /// panel's "With Active User & Created Persons" row.
         /// </summary>
         Task<List<Guid>> GetDistinctCreatorIdsAsync();
+
+        /// <summary>
+        /// Resolve display names for a SPECIFIC set of person ids in one call.
+        /// Bypasses the access filter (like Directory) and exposes only the
+        /// name + nationalId. Used by other services (e.g. the Company
+        /// stakeholder view) to resolve related-party / board-representative
+        /// names without pulling the full directory.
+        /// </summary>
+        Task<List<PersonNameDto>> GetNamesByIdsAsync(IReadOnlyCollection<Guid> ids, short languageId = 12);
     }
 }

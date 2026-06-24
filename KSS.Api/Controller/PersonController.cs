@@ -80,6 +80,32 @@ namespace KSS.Api.Controller
         }
 
         /// <summary>
+        /// GET /Api/Person/Employments — all employment rows (minimal: person,
+        /// company, position, dates). Bypasses the per-caller access filter like
+        /// Directory (action name not mapped in PermissionAuthorizationFilter);
+        /// auth is still required. Used by the Members "personnel by position"
+        /// report to aggregate brokerage personnel by their work-experience role.
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<EmploymentDirectoryDto>>> Employments()
+        {
+            var data = await _personService.ListEmploymentsAsync();
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// GET /Api/Person/Demographics — per-person sex + date of birth. Bypasses
+        /// the access filter like Directory; used by the Members brokerage-profile
+        /// report for age/gender distributions.
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<PersonDemographicsDto>>> Demographics()
+        {
+            var data = await _personService.ListDemographicsAsync();
+            return Ok(data);
+        }
+
+        /// <summary>
         /// GET /Api/Person/Me — returns the caller's own minimal person info
         /// (Id, NationalId, translations) based on the personId claim in the JWT.
         /// Skips the Person.Information.Read section gate (action name "Me"
@@ -92,6 +118,22 @@ namespace KSS.Api.Controller
         {
             var data = await _personService.GetSelfAsync();
             if (data == null) return NotFound();
+            return Ok(data);
+        }
+
+        /// <summary>
+        /// POST /Api/Person/Names — resolve display names for a SPECIFIC set of
+        /// person ids in one call. Body: { ids: [...], languageId }. Used by
+        /// other services (e.g. the Company stakeholder view) to resolve
+        /// related-party / board-representative names without pulling the full
+        /// directory. Bypasses the section permission gate (action name not
+        /// mapped in PermissionAuthorizationFilter) like Directory; auth is
+        /// still required.
+        /// </summary>
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<PersonNameDto>>> Names([FromBody] PersonNamesRequestDto request)
+        {
+            var data = await _personService.GetNamesByIdsAsync(request.Ids, request.LanguageId);
             return Ok(data);
         }
     }

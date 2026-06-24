@@ -18,5 +18,13 @@ namespace KSS.Data.DbContexts
         public DbSet<EducationDocument> EducationDocuments { get; set; }
         public DbSet<EducationDocumentType> EducationDocumentTypes { get; set; }
         public DbSet<EducationDocumentTypeTranslation> EducationDocumentTypeTranslations { get; set; }
+        public DbSet<ProfessionalTraining> ProfessionalTrainings { get; set; }
+        public DbSet<ProfessionalTrainingDocument> ProfessionalTrainingDocuments { get; set; }
+        public DbSet<ProfessionalTrainingType> ProfessionalTrainingTypes { get; set; }
+        public DbSet<ProfessionalTrainingTypeTranslation> ProfessionalTrainingTypeTranslations { get; set; }
+        public DbSet<ProfessionalTrainingCertificateIssuer> ProfessionalTrainingCertificateIssuers { get; set; }
+        public DbSet<ProfessionalTrainingCertificateIssuerTranslation> ProfessionalTrainingCertificateIssuerTranslations { get; set; }
+        public DbSet<ProfessionalTrainingDocumentType> ProfessionalTrainingDocumentTypes { get; set; }
+        public DbSet<ProfessionalTrainingDocumentTypeTranslation> ProfessionalTrainingDocumentTypeTranslations { get; set; }
     }
 }

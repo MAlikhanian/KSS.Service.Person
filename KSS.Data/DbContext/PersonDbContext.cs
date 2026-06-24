@@ -19,12 +19,6 @@ namespace KSS.Data.DbContexts
         public DbSet<AddressLabelTranslation> AddressLabelTranslations { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<AddressTranslation> AddressTranslations { get; set; }
-        public DbSet<JobCategory> JobCategories { get; set; }
-        public DbSet<JobCategoryTranslation> JobCategoryTranslations { get; set; }
-        public DbSet<JobDepartment> JobDepartments { get; set; }
-        public DbSet<JobDepartmentTranslation> JobDepartmentTranslations { get; set; }
-        public DbSet<JobTitle> JobTitles { get; set; }
-        public DbSet<JobTitleTranslation> JobTitleTranslations { get; set; }
         public DbSet<Employment> Employments { get; set; }
         public DbSet<RelationshipType> RelationshipTypes { get; set; }
         public DbSet<RelationshipTypeTranslation> RelationshipTypeTranslations { get; set; }
@@ -41,11 +35,11 @@ namespace KSS.Data.DbContexts
         public DbSet<Status> Statuses { get; set; }
         public DbSet<ContractType> ContractTypes { get; set; }
         public DbSet<ContractTypeTranslation> ContractTypeTranslations { get; set; }
-        public DbSet<BusinessSector> BusinessSectors { get; set; }
-        public DbSet<BusinessSectorTranslation> BusinessSectorTranslations { get; set; }
-        public DbSet<BusinessUnit> BusinessUnits { get; set; }
-        public DbSet<BusinessUnitTranslation> BusinessUnitTranslations { get; set; }
-        public DbSet<JobPosition> JobPositions { get; set; }
-        public DbSet<JobPositionTranslation> JobPositionTranslations { get; set; }
+        public DbSet<EmploymentActivityField> EmploymentActivityFields { get; set; }
+        public DbSet<EmploymentActivityFieldTranslation> EmploymentActivityFieldTranslations { get; set; }
+        public DbSet<EmploymentActivityUnit> EmploymentActivityUnits { get; set; }
+        public DbSet<EmploymentActivityUnitTranslation> EmploymentActivityUnitTranslations { get; set; }
+        public DbSet<EmploymentPosition> EmploymentPositions { get; set; }
+        public DbSet<EmploymentPositionTranslation> EmploymentPositionTranslations { get; set; }
     }
 }

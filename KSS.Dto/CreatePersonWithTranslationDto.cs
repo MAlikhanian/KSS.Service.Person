@@ -13,11 +13,11 @@ namespace KSS.Dto
 
         public DateTime? DateOfBirth { get; set; }
 
-        public short BirthCountryId { get; set; } = 1;
+        public short? BirthCountryId { get; set; }
 
-        public short BirthRegionId { get; set; } = 1;
+        public short? BirthRegionId { get; set; }
 
-        public int BirthCityId { get; set; } = 1;
+        public int? BirthCityId { get; set; }
 
         [MaxLength(20)]
         public string? BirthCertificateNumber { get; set; }
@@ -30,13 +30,13 @@ namespace KSS.Dto
         [MaxLength(6)]
         public string? BirthCertificateSerial { get; set; }
 
-        public short BirthCertificateIssueCountryId { get; set; } = 1;
+        public short? BirthCertificateIssueCountryId { get; set; }
 
-        public short BirthCertificateIssueRegionId { get; set; } = 1;
+        public short? BirthCertificateIssueRegionId { get; set; }
 
-        public int BirthCertificateIssueCityId { get; set; } = 1;
+        public int? BirthCertificateIssueCityId { get; set; }
 
-        public byte MaritalStatusId { get; set; } = 1;
+        public byte? MaritalStatusId { get; set; }
 
         public short? ReligionId { get; set; }
 

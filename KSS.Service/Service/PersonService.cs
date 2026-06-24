@@ -17,6 +17,7 @@ namespace KSS.Service.Service
         private readonly IRoleAccessRepository _roleAccessRepository;
         private readonly IAccessService _accessService;
         private readonly IPersonAccessChecker _accessChecker;
+        private readonly IEmploymentRepository _employmentRepository;
         private readonly IHttpContextAccessor? _httpContextAccessor;
 
         public PersonService(
@@ -27,6 +28,7 @@ namespace KSS.Service.Service
             IRoleAccessRepository roleAccessRepository,
             IAccessService accessService,
             IPersonAccessChecker accessChecker,
+            IEmploymentRepository employmentRepository,
             IHttpContextAccessor? httpContextAccessor = null) : base(mapper, repository)
         {
             _personRepository = repository;
@@ -35,6 +37,7 @@ namespace KSS.Service.Service
             _roleAccessRepository = roleAccessRepository;
             _accessService = accessService;
             _accessChecker = accessChecker;
+            _employmentRepository = employmentRepository;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -88,17 +91,19 @@ namespace KSS.Service.Service
             existing.SexId = item.SexId;
             existing.PreferredLanguageId = item.PreferredLanguageId;
             existing.DateOfBirth = item.DateOfBirth;
-            existing.BirthCountryId = item.BirthCountryId;
-            existing.BirthRegionId = item.BirthRegionId;
-            existing.BirthCityId = item.BirthCityId;
+            // Optional lookups: a 0 from the client means "unset" → store NULL
+            // (MaritalStatusId is FK-constrained, so a 0 would violate it).
+            existing.BirthCountryId = NullIfZero(item.BirthCountryId);
+            existing.BirthRegionId = NullIfZero(item.BirthRegionId);
+            existing.BirthCityId = NullIfZero(item.BirthCityId);
             existing.BirthCertificateNumber = item.BirthCertificateNumber;
             existing.BirthCertificateSeriesNumber = item.BirthCertificateSeriesNumber;
-            existing.BirthCertificateSeriesLetterId = item.BirthCertificateSeriesLetterId;
+            existing.BirthCertificateSeriesLetterId = NullIfZero(item.BirthCertificateSeriesLetterId);
             existing.BirthCertificateSerial = item.BirthCertificateSerial;
-            existing.BirthCertificateIssueCountryId = item.BirthCertificateIssueCountryId;
-            existing.BirthCertificateIssueRegionId = item.BirthCertificateIssueRegionId;
-            existing.BirthCertificateIssueCityId = item.BirthCertificateIssueCityId;
-            existing.MaritalStatusId = item.MaritalStatusId;
+            existing.BirthCertificateIssueCountryId = NullIfZero(item.BirthCertificateIssueCountryId);
+            existing.BirthCertificateIssueRegionId = NullIfZero(item.BirthCertificateIssueRegionId);
+            existing.BirthCertificateIssueCityId = NullIfZero(item.BirthCertificateIssueCityId);
+            existing.MaritalStatusId = NullIfZero(item.MaritalStatusId);
             existing.ReligionId = item.ReligionId;
             existing.PassportNumber = item.PassportNumber;
             existing.MilitaryServiceStatusId = item.MilitaryServiceStatusId;
@@ -109,6 +114,13 @@ namespace KSS.Service.Service
 
             if (saveChanges) _personRepository.SaveChanges();
         }
+
+        // Optional lookup fields: treat a client-sent 0 (an unselected dropdown)
+        // as "unset" so it is stored as NULL rather than 0 (which would violate
+        // the MaritalStatus FK and is meaningless for the birth-location refs).
+        private static short? NullIfZero(short? value) => value is null or 0 ? null : value;
+        private static int? NullIfZero(int? value) => value is null or 0 ? null : value;
+        private static byte? NullIfZero(byte? value) => value is null or 0 ? null : value;
 
         // ─── Filter persons by caller's access ───
         // A person is visible to the caller if any of:
@@ -173,17 +185,19 @@ namespace KSS.Service.Service
                 PreferredLanguageId = request.PreferredLanguageId,
                 NationalId = request.NationalId ?? Guid.NewGuid().ToString("N")[..20],
                 DateOfBirth = request.DateOfBirth ?? new DateTime(1990, 1, 1),
-                BirthCountryId = request.BirthCountryId,
-                BirthRegionId = request.BirthRegionId,
-                BirthCityId = request.BirthCityId,
+                // Optional lookups: a 0 from the client means "unset" → store NULL
+                // (MaritalStatusId is FK-constrained, so a 0 would violate it).
+                BirthCountryId = NullIfZero(request.BirthCountryId),
+                BirthRegionId = NullIfZero(request.BirthRegionId),
+                BirthCityId = NullIfZero(request.BirthCityId),
                 BirthCertificateNumber = request.BirthCertificateNumber,
                 BirthCertificateSeriesNumber = request.BirthCertificateSeriesNumber,
-                BirthCertificateSeriesLetterId = request.BirthCertificateSeriesLetterId,
+                BirthCertificateSeriesLetterId = NullIfZero(request.BirthCertificateSeriesLetterId),
                 BirthCertificateSerial = request.BirthCertificateSerial,
-                BirthCertificateIssueCountryId = request.BirthCertificateIssueCountryId,
-                BirthCertificateIssueRegionId = request.BirthCertificateIssueRegionId,
-                BirthCertificateIssueCityId = request.BirthCertificateIssueCityId,
-                MaritalStatusId = request.MaritalStatusId,
+                BirthCertificateIssueCountryId = NullIfZero(request.BirthCertificateIssueCountryId),
+                BirthCertificateIssueRegionId = NullIfZero(request.BirthCertificateIssueRegionId),
+                BirthCertificateIssueCityId = NullIfZero(request.BirthCertificateIssueCityId),
+                MaritalStatusId = NullIfZero(request.MaritalStatusId),
                 ReligionId = request.ReligionId,
                 PassportNumber = request.PassportNumber,
                 MilitaryServiceStatusId = request.MilitaryServiceStatusId,
@@ -261,6 +275,8 @@ namespace KSS.Service.Service
                 {
                     Id = p.Id,
                     NationalId = p.NationalId ?? string.Empty,
+                    CreatedBy = p.CreatedBy,
+                    CreatedAt = p.CreatedAt,
                     Translations = trByPerson.TryGetValue(p.Id, out var trs)
                         ? trs.Select(t => new PersonDirectoryTranslationDto
                         {
@@ -269,6 +285,41 @@ namespace KSS.Service.Service
                             LastName = t.LastName ?? string.Empty,
                         }).ToList()
                         : new List<PersonDirectoryTranslationDto>(),
+                })
+                .ToList();
+        }
+
+        // Bypass-access list of ALL employment rows (minimal shape) for
+        // cross-service reporting — mirrors ListDirectoryAsync. No per-caller
+        // visibility filter; the reporting caller is gated at the endpoint level.
+        public async Task<IEnumerable<EmploymentDirectoryDto>> ListEmploymentsAsync()
+        {
+            var employments = await _employmentRepository.ToListAsync();
+            return employments
+                .Select(e => new EmploymentDirectoryDto
+                {
+                    Id = e.Id,
+                    PersonId = e.PersonId,
+                    CompanyId = e.CompanyId,
+                    EmploymentPositionId = e.EmploymentPositionId,
+                    FromDate = e.FromDate,
+                    ToDate = e.ToDate,
+                    IsActive = e.IsActive,
+                })
+                .ToList();
+        }
+
+        // Bypass-access per-person demographics (sex, date of birth) for
+        // cross-service reporting — mirrors ListDirectoryAsync.
+        public async Task<IEnumerable<PersonDemographicsDto>> ListDemographicsAsync()
+        {
+            var persons = await _personRepository.ToListAsync();
+            return persons
+                .Select(p => new PersonDemographicsDto
+                {
+                    Id = p.Id,
+                    SexId = p.SexId,
+                    DateOfBirth = p.DateOfBirth,
                 })
                 .ToList();
         }
@@ -294,8 +345,39 @@ namespace KSS.Service.Service
             {
                 Id = person.Id,
                 NationalId = person.NationalId ?? string.Empty,
+                CreatedBy = person.CreatedBy,
+                CreatedAt = person.CreatedAt,
                 Translations = translations,
             };
+        }
+
+        public async Task<List<PersonNameDto>> GetNamesByIdsAsync(IReadOnlyCollection<Guid> ids, short languageId = 12)
+        {
+            if (ids == null || ids.Count == 0) return new List<PersonNameDto>();
+
+            var idList = ids.Distinct().ToList();
+            var persons = (await _personRepository.ToListAsync(p => idList.Contains(p.Id))).ToList();
+            if (persons.Count == 0) return new List<PersonNameDto>();
+
+            var personIds = persons.Select(p => p.Id).ToList();
+            var trByPerson = (await _translationRepository.ToListAsync(t => personIds.Contains(t.PersonId)))
+                .GroupBy(t => t.PersonId)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            return persons
+                .Select(p =>
+                {
+                    var trs = trByPerson.TryGetValue(p.Id, out var list) ? list : null;
+                    var tr = trs?.FirstOrDefault(t => t.LanguageId == languageId) ?? trs?.FirstOrDefault();
+                    return new PersonNameDto
+                    {
+                        Id = p.Id,
+                        NationalId = p.NationalId ?? string.Empty,
+                        FirstName = tr?.FirstName ?? string.Empty,
+                        LastName = tr?.LastName ?? string.Empty,
+                    };
+                })
+                .ToList();
         }
 
         /// <summary>

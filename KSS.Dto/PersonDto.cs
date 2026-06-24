@@ -9,25 +9,25 @@ namespace KSS.Dto
         public short PreferredLanguageId { get; set; }
         public string NationalId { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
-        public short BirthCountryId { get; set; }
-        public short BirthRegionId { get; set; }
-        public int BirthCityId { get; set; }
+        public short? BirthCountryId { get; set; }
+        public short? BirthRegionId { get; set; }
+        public int? BirthCityId { get; set; }
         public string? BirthCertificateNumber { get; set; }
         public byte? BirthCertificateSeriesLetterId { get; set; }
         [MaxLength(2)]
         public string? BirthCertificateSeriesNumber { get; set; }
         [MaxLength(6)]
         public string? BirthCertificateSerial { get; set; }
-        public short BirthCertificateIssueCountryId { get; set; }
-        public short BirthCertificateIssueRegionId { get; set; }
-        public int BirthCertificateIssueCityId { get; set; }
+        public short? BirthCertificateIssueCountryId { get; set; }
+        public short? BirthCertificateIssueRegionId { get; set; }
+        public int? BirthCertificateIssueCityId { get; set; }
         public short? ReligionId { get; set; }
         public string? PassportNumber { get; set; }
         public byte? MilitaryServiceStatusId { get; set; }
         public short? MilitaryServiceLocationId { get; set; }
         public byte? InsuranceTypeId { get; set; }
         public string? InsuranceNumber { get; set; }
-        public byte MaritalStatusId { get; set; }
+        public byte? MaritalStatusId { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public Guid? UpdatedBy { get; set; }
